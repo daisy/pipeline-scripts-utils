@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="2.0" xmlns:opf="http://www.idpf.org/2007/opf" xmlns:html="http://www.w3.org/1999/xhtml"
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="2.0" xmlns:opf="http://www.idpf.org/2007/opf" xmlns="http://www.idpf.org/2007/opf" xmlns:html="http://www.w3.org/1999/xhtml"
     xmlns:epub="http://www.idpf.org/2007/ops">
     <xsl:output indent="yes"/>
     <xsl:template match="/*">
-        <opf:guide>
+        <guide>
             <xsl:for-each select="//html:nav[@*[name()='epub:type']='landmarks']">
                 <xsl:call-template name="landmarks-nav"/>
             </xsl:for-each>
-        </opf:guide>
+        </guide>
     </xsl:template>
     <xsl:template name="landmarks-nav">
         <xsl:for-each select="descendant::html:a">
-            <opf:reference title="{.}" href="{@href}">
+            <reference title="{.}" href="{@href}">
                 <xsl:attribute name="type">
                     <xsl:choose>
                         <xsl:when test="@epub:type='titlepage'">
@@ -29,7 +29,7 @@
                         </xsl:otherwise>
                     </xsl:choose>
                 </xsl:attribute>
-            </opf:reference>
+            </reference>
         </xsl:for-each>
     </xsl:template>
 </xsl:stylesheet>

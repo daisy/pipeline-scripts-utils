@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">
+    <uri name="http://www.daisy.org/pipeline/modules/daisy202-utils/xproc/daisy202-library.xpl"
+        uri="../xml/xproc/daisy202-library.xpl"/>
+   <nextCatalog catalog="org:daisy:pipeline:modules:fileset-utils"/>
+   <nextCatalog catalog="org:daisy:pipeline:modules:mediatype-utils"/>
+</catalog>

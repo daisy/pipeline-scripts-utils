@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<p:declare-step type="px:epub3-ocf-finalize" name="main" xmlns:p="http://www.w3.org/ns/xproc" xmlns:c="http://www.w3.org/ns/xproc-step" xmlns:err="http://www.w3.org/ns/xproc-error"
-    xmlns:px="http://www.daisy.org/ns/pipeline/xproc" xmlns:pxi="http://www.daisy.org/ns/pipeline/xproc-internal" version="1.0">
-
+<p:declare-step type="px:epub3-ocf-finalize" name="main" xmlns:p="http://www.w3.org/ns/xproc" xmlns:c="http://www.w3.org/ns/xproc-step" xmlns:err="http://www.w3.org/ns/xproc-error" xmlns:px="http://www.daisy.org/ns/pipeline/xproc"
+    xmlns:pxi="http://www.daisy.org/ns/pipeline/xproc-internal" version="1.0">
+    
     <p:input port="source" primary="true"/>
     <p:input port="metadata" sequence="true">
         <p:empty/>
@@ -17,10 +17,17 @@
     <p:output port="container">
         <p:pipe port="result" step="create-container-descriptor"/>
     </p:output>
-
+    <p:output port="in-memory.out" sequence="true">
+        <p:pipe port="result" step="create-container-descriptor"/>
+        <p:pipe port="result" step="create-odf-manifest"/>
+        <p:pipe port="metadata" step="main"/>
+        <p:pipe port="rights" step="main"/>
+        <p:pipe port="signature" step="main"/>
+    </p:output>
+    
     <p:import href="http://www.daisy.org/pipeline/modules/fileset-utils/xproc/fileset-library.xpl"/>
-
-    <p:declare-step type="pxi:store-in-ocf" name="store-in-ocf">
+    
+    <p:declare-step type="pxi:fileset-add-ocf-entry" name="store-in-ocf">
         <p:input port="fileset" primary="true"/>
         <p:input port="source" sequence="true"/>
         <p:option name="path" required="true"/>
@@ -44,29 +51,18 @@
                 <p:error code="err:EOU001">
                     <p:input port="source">
                         <p:inline>
-                            <c:message>It is a dynamic error if more than one document appears on
-                                the source port.</c:message>
+                            <c:message>It is a dynamic error if more than one document appears on the source port.</c:message>
                         </p:inline>
                     </p:input>
                 </p:error>
             </p:when>
             <p:otherwise>
-                <!-- Store container descriptor -->
+                <!-- Add to fileset -->
                 <p:unwrap match="/wrapper"/>
-
-                <!-- Add the container descriptor to the fileset document -->
                 <p:choose>
                     <p:when test="p:value-available('media-type')">
-                        <p:store indent="true" encoding="utf-8" omit-xml-declaration="false">
-                            <p:with-option name="method" select="if($path='mimetype') then 'text' else 'xml'"/>
-                            <p:with-option name="media-type" select="$media-type"/>
-                            <p:with-option name="href" select="resolve-uri($path,base-uri(/*))">
-                                <p:pipe port="fileset" step="store-in-ocf"/>
-                            </p:with-option>
-                        </p:store>
                         <px:fileset-add-entry>
                             <p:with-option name="href" select="$path"/>
-                            <p:with-option name="first" select="if ($path='mimetype') then true() else false()"/>
                             <p:with-option name="media-type" select="$media-type"/>
                             <p:input port="source">
                                 <p:pipe port="fileset" step="store-in-ocf"/>
@@ -74,15 +70,8 @@
                         </px:fileset-add-entry>
                     </p:when>
                     <p:otherwise>
-                        <p:store indent="true" encoding="utf-8" omit-xml-declaration="false">
-                            <p:with-option name="method" select="if($path='mimetype') then 'text' else 'xml'"/>
-                            <p:with-option name="href" select="resolve-uri($path,base-uri(/*))">
-                                <p:pipe port="fileset" step="store-in-ocf"/>
-                            </p:with-option>
-                        </p:store>
                         <px:fileset-add-entry>
                             <p:with-option name="href" select="$path"/>
-                            <p:with-option name="first" select="if ($path='mimetype') then true() else false()"/>
                             <p:input port="source">
                                 <p:pipe port="fileset" step="store-in-ocf"/>
                             </p:input>
@@ -92,25 +81,14 @@
             </p:otherwise>
         </p:choose>
     </p:declare-step>
-
+    
+    <p:variable name="result-base" select="base-uri(/*)"/>
+    
     <p:wrap-sequence name="opf-files" wrapper="wrapper">
         <p:input port="source" select="//*[@media-type='application/oebps-package+xml' or ends-with(@href,'.opf')]">
             <p:pipe port="source" step="main"/>
         </p:input>
     </p:wrap-sequence>
-    <p:sink/>
-
-    <p:group name="create-mimetype">
-        <p:output port="result"/>
-        <!-- Create a c:data with the mimetype content -->
-        <p:string-replace match="text()" replace="normalize-space()">
-            <p:input port="source">
-                <p:inline>
-                    <c:data>application/epub+zip</c:data>
-                </p:inline>
-            </p:input>
-        </p:string-replace>
-    </p:group>
     <p:sink/>
 
     <p:group name="create-container-descriptor">
@@ -126,11 +104,14 @@
                 <p:empty/>
             </p:input>
         </p:xslt>
+        <p:add-attribute match="/*" attribute-name="xml:base">
+            <p:with-option name="attribute-value" select="resolve-uri('META-INF/container.xml',$result-base)"/>
+        </p:add-attribute>
+        <p:delete match="/*/@xml:base"/>
     </p:group>
     <p:sink/>
 
-    <p:group name="create-odf-manifest"
-        xmlns:manifest="urn:oasis:names:tc:opendocument:xmlns:manifest:1.0">
+    <p:group name="create-odf-manifest" xmlns:manifest="urn:oasis:names:tc:opendocument:xmlns:manifest:1.0">
         <p:output port="result" sequence="true"/>
         <p:identity>
             <p:input port="source">
@@ -141,14 +122,16 @@
             <p:when test="$create-odf-manifest = 'true'">
                 <p:xslt>
                     <p:input port="stylesheet">
-                        <p:document
-                            href="http://www.daisy.org/pipeline/modules/fileset-utils/xslt/fileset-to-odf-manifest.xsl"
-                        />
+                        <p:document href="http://www.daisy.org/pipeline/modules/fileset-utils/xslt/fileset-to-odf-manifest.xsl"/>
                     </p:input>
                     <p:input port="parameters">
                         <p:empty/>
                     </p:input>
                 </p:xslt>
+                <p:add-attribute match="/*" attribute-name="xml:base">
+                    <p:with-option name="attribute-value" select="resolve-uri('META-INF/manifest.xml',$result-base)"/>
+                </p:add-attribute>
+                <p:delete match="/*/@xml:base"/>
             </p:when>
             <p:otherwise>
                 <p:identity/>
@@ -178,39 +161,33 @@
             </p:identity>
         </p:otherwise>
     </p:choose>
-    <pxi:store-in-ocf path="mimetype">
-        <p:input port="source">
-            <p:pipe port="result" step="create-mimetype"/>
-        </p:input>
-    </pxi:store-in-ocf>
-    <pxi:store-in-ocf path="META-INF/container.xml" media-type="application/oebps-package+xml">
+    <pxi:fileset-add-ocf-entry path="META-INF/container.xml">
         <p:input port="source">
             <p:pipe port="result" step="create-container-descriptor"/>
         </p:input>
-    </pxi:store-in-ocf>
-    <pxi:store-in-ocf path="META-INF/metadata.xml">
+    </pxi:fileset-add-ocf-entry>
+    <pxi:fileset-add-ocf-entry path="META-INF/metadata.xml">
         <p:input port="source">
             <p:pipe port="metadata" step="main"/>
         </p:input>
-    </pxi:store-in-ocf>
-    <pxi:store-in-ocf path="META-INF/rights.xml">
+    </pxi:fileset-add-ocf-entry>
+    <pxi:fileset-add-ocf-entry path="META-INF/rights.xml">
         <p:input port="source">
             <p:pipe port="rights" step="main"/>
         </p:input>
-    </pxi:store-in-ocf>
-    <pxi:store-in-ocf path="META-INF/signature.xml">
+    </pxi:fileset-add-ocf-entry>
+    <pxi:fileset-add-ocf-entry path="META-INF/signature.xml">
         <p:input port="source">
             <p:pipe port="signature" step="main"/>
         </p:input>
-    </pxi:store-in-ocf>
+    </pxi:fileset-add-ocf-entry>
     <p:identity name="before-odf"/>
     <!-- Finally -->
-    <pxi:store-in-ocf path="META-INF/manifest.xml">
+    <pxi:fileset-add-ocf-entry path="META-INF/manifest.xml">
         <p:input port="source">
             <p:pipe port="result" step="create-odf-manifest"/>
         </p:input>
-    </pxi:store-in-ocf>
+    </pxi:fileset-add-ocf-entry>
     <p:identity name="fileset-finalized"/>
-
 
 </p:declare-step>

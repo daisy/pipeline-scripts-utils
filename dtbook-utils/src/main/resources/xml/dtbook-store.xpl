@@ -153,23 +153,6 @@
                             <p:with-option name="target" select="$target"/>
                         </px:copy>
 
-                        <p:group name="dbg">
-                            <p:identity>
-                                <p:input port="source">
-                                    <p:inline>
-                                        <c:request method="GET" override-content-type="text/plain"/>
-                                    </p:inline>
-                                </p:input>
-                            </p:identity>
-                            <p:add-attribute match="/*" attribute-name="href">
-                                <p:with-option name="attribute-value" select="$on-disk"/>
-                            </p:add-attribute>
-                            <p:http-request>
-                                <p:log port="result" href="file:/home/jostein/Skrivebord/dtbook-store.http-request.log.xml"/>
-                            </p:http-request>
-                            <p:sink/>
-                        </p:group>
-
                         <p:identity>
                             <p:input port="source">
                                 <p:pipe port="current" step="store"/>

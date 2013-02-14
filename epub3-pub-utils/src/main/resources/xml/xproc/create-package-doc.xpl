@@ -2,7 +2,7 @@
 <p:declare-step type="px:epub3-pub-create-package-doc" name="main" xmlns:opf="http://www.idpf.org/2007/opf" xmlns:p="http://www.w3.org/ns/xproc" xmlns:px="http://www.daisy.org/ns/pipeline/xproc"
     xmlns:c="http://www.w3.org/ns/xproc-step" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:d="http://www.daisy.org/ns/pipeline/data" xmlns:html="http://www.w3.org/1999/xhtml"
     xmlns:epub="http://www.idpf.org/2007/ops" xmlns:f="http://www.daisy.org/ns/pipeline/internal-functions" version="1.0">
-
+    
     <!-- Note: all URIs in options and xml:base attributes must be absolute. -->
     <p:input port="spine-filesets" sequence="true" primary="true"/>
     <p:input port="publication-resources">
@@ -26,7 +26,16 @@
     <p:output port="result" primary="true"/>
 
     <p:import href="http://www.daisy.org/pipeline/modules/fileset-utils/xproc/fileset-library.xpl"/>
-
+    <p:import href="http://www.daisy.org/pipeline/modules/mediatype-utils/mediatype.xpl"/>
+    
+    <px:fileset-join/>
+    <px:mediatype-detect name="spine-filesets-with-mediatypes">
+        <p:input port="in-memory">
+            <p:pipe port="content-docs" step="main"/>
+            <p:pipe port="mediaoverlays" step="main"/>
+        </p:input>
+    </px:mediatype-detect>
+    
     <p:group name="nav-doc">
         <p:output port="result"/>
         <p:split-sequence>
@@ -337,7 +346,7 @@
             <p:input port="source">
                 <!-- TODO: test to make sure that the resulting URIs turns out as relative to $result-uri -->
                 <p:pipe port="result" step="manifest.content-docs"/>
-                <p:pipe port="spine-filesets" step="main"/>
+                <p:pipe port="result" step="spine-filesets-with-mediatypes"/>
                 <p:pipe port="result" step="manifest.mediaoverlays"/>
                 <p:pipe port="publication-resources" step="main"/>
                 <p:pipe port="result" step="manifest.bindings"/>
@@ -362,7 +371,7 @@
 
         <p:wrap-sequence wrapper="fallback">
             <p:input port="source">
-                <p:pipe port="spine-filesets" step="main"/>
+                <p:pipe port="result" step="spine-filesets-with-mediatypes"/>
             </p:input>
         </p:wrap-sequence>
         <p:xslt>
@@ -435,7 +444,7 @@
         <p:output port="result"/>
         <p:identity>
             <p:input port="source">
-                <p:pipe port="spine-filesets" step="main"/>
+                <p:pipe port="result" step="spine-filesets-with-mediatypes"/>
             </p:input>
         </p:identity>
         <p:for-each>

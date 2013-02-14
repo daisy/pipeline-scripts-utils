@@ -30,7 +30,7 @@
         <head>
             <meta name="dtb:uid" content="{html:meta[@name='dc:identifier']}"/>
             <meta name="dtb:depth" content="{max(//html:li/count(ancestor::html:li))+1}"/>
-            <meta name="dtb:generator" content="Pipeline 2"/>
+            <meta name="dtb:generator" content="DAISY Pipeline 2"/>
             <xsl:variable name="totalPageCount" select="count(//html:nav[@*[name()='epub:type']='page-list']/html:ol/html:li)"/>
             <meta name="dtb:totalPageCount" content="{$totalPageCount}"/>
             <!-- TODO: parse roman numerals? -->
