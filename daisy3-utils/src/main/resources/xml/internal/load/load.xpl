@@ -10,6 +10,11 @@
             order. If more than one DTBook document is found in the fileset, SMIL documents are
             loaded in memory to sort the DTBook documents in the spine order in the resulting
             fileset. Otherwise, only the OPF itself is loaded in memory.</p>
+        <p>Note: In the resulting fileset, the media type of SMIL documents will be
+                <code>application/smil+xml</code> (as opposed to <code>application/smil</code> in
+            DAISY 3) and the media type of the OPF document will be
+                <code>application/oebps-package+xml</code> (as opposed to <code>text/xml</code> in
+            DAISY 3).</p>
     </p:documentation>
 
     <p:input port="source" primary="true" sequence="false">
@@ -42,8 +47,6 @@
             <p:empty/>
         </p:input>
     </p:xslt>
-
-    <!-- TODO change the OPF media type to application/oebps-package+xml ??-->
 
     <p:group name="fileset-ordered">
         <p:output port="fileset" primary="true"/>

@@ -51,7 +51,10 @@
     </xsl:template>
 
     <xsl:template match="item">
-        <d:file href="{@href}" media-type="{if(@media-type='application/smil') then 'application/smil+xml' else @media-type}"/>
+        <d:file href="{@href}" media-type="{
+            if(@media-type='application/smil') then 'application/smil+xml'
+            else if (@media-type='text/xml' and ends-with(@href,'.opf')) then 'application/oebps-package+xml' 
+            else @media-type}"/>
     </xsl:template>
 
     <xsl:template match="text()"/>
