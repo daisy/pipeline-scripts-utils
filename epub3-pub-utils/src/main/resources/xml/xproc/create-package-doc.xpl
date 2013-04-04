@@ -341,7 +341,7 @@
             </px:fileset-add-entry>
         </p:for-each>
         <p:sink/>
-
+        
         <px:fileset-join>
             <p:input port="source">
                 <!-- TODO: test to make sure that the resulting URIs turns out as relative to $result-uri -->

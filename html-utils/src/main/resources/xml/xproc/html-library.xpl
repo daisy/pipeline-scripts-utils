@@ -41,7 +41,7 @@
                     </p:group>
                     <p:catch>
                         <p:in-scope-names name="vars"/>
-                        <p:template>
+                        <p:template name="template">
                             <p:input port="template">
                                 <p:inline>
                                     <c:message><![CDATA[]]>Could not load {$href}<![CDATA[]]></c:message>
@@ -54,7 +54,11 @@
                                 <p:pipe step="vars" port="result"/>
                             </p:input>
                         </p:template>
-                        <p:error code="XC0011"/>
+                        <p:error code="XC0011">
+                            <p:input port="source">
+                                <p:pipe port="result" step="template"/>
+                            </p:input>
+                        </p:error>
                     </p:catch>
                 </p:try>
             </p:catch>

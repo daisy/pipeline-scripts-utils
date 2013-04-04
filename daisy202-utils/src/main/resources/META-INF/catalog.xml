@@ -4,4 +4,6 @@
         uri="../xml/xproc/daisy202-library.xpl"/>
    <nextCatalog catalog="org:daisy:pipeline:modules:fileset-utils"/>
    <nextCatalog catalog="org:daisy:pipeline:modules:mediatype-utils"/>
+   <nextCatalog catalog="org:daisy:pipeline:modules:html-utils"/>
+   <nextCatalog catalog="org:daisy:pipeline:modules:mediaoverlay-utils"/>
 </catalog>
