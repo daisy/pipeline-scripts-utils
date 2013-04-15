@@ -17,7 +17,8 @@
     <p:option name="visible-depth" select="-1"/>
     <!-- integer -->
 
-    <p:for-each>
+    <p:for-each name="tocs">
+        <p:output port="result"/>
         <p:variable name="base-uri" select="p:base-uri(/*)"/>
         <p:variable name="base-ref"
             select="if (starts-with($base-uri,$base-dir)) 
@@ -47,6 +48,9 @@
                     <ol/>
                 </nav>
             </p:inline>
+        </p:input>
+        <p:input port="insertion">
+            <p:pipe port="result" step="tocs"/>
         </p:input>
     </p:insert>
     

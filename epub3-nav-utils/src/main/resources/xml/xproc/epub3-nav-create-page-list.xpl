@@ -8,7 +8,8 @@
     <p:output port="result"/>
     <p:option name="hidden" select="'true'"/>
 
-    <p:for-each>
+    <p:for-each name="page-lists">
+        <p:output port="result"/>
         <p:xslt>
             <p:input port="stylesheet">
                 <p:document href="../xslt/html5-to-page-list.xsl"/>
@@ -29,6 +30,9 @@
                     <ol/>
                 </nav>
             </p:inline>
+        </p:input>
+        <p:input port="insertion">
+            <p:pipe port="result" step="page-lists"/>
         </p:input>
     </p:insert>
 
