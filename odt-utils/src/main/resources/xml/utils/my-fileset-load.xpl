@@ -40,7 +40,7 @@
         </p:input>
     </px:fileset-diff>
     
-    <p:for-each name="in-memory.unzipped">
+    <p:for-each name="in-memory.unzip">
         <p:iteration-source select="//d:file"/>
         <p:output port="result" sequence="true"/>
         <p:variable name="target" select="/*/resolve-uri(@href, base-uri(.))"/>
@@ -70,6 +70,7 @@
             </p:catch>
         </p:try>
     </p:for-each>
+    <p:sink/>
     
     <!-- ================================ -->
     <!-- Load remaining files into memory -->
@@ -81,7 +82,7 @@
         </p:input>
         <p:input port="in-memory">
             <p:pipe step="my-fileset-load" port="in-memory.in"/>
-            <p:pipe step="in-memory.unzipped" port="result"/>
+            <p:pipe step="in-memory.unzip" port="result"/>
         </p:input>
     </px:fileset-load>
     
