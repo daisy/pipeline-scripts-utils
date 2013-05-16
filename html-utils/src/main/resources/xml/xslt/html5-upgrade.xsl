@@ -18,6 +18,15 @@
    <xsl:template match="text()|processing-instruction()|comment()">
       <xsl:copy-of select="."/>
    </xsl:template>
+   
+   <xsl:template match="*">
+      <xsl:copy-of select="@*"/>
+      <xsl:for-each select="*|text()|processing-instruction()|comment()">
+         <xsl:copy>
+            <xsl:apply-templates select="."/>
+         </xsl:copy>
+      </xsl:for-each>
+   </xsl:template>
                 
    <xsl:template name="html" match="h:html">
       <xsl:copy-of select="@manifest|@class|@accesskey|@contenteditable|@contextmenu|@dir|@draggable|@dropzone|@hidden|@id|@lang|@spellcheck|@style|@tabindex|@title|@translate|@onabort|@onblur|@oncancel|@oncanplay|@oncanplaythrough|@onchange|@onclick|@onclose|@oncontextmenu|@oncuechange|@ondblclick|@ondrag|@ondragend|@ondragenter|@ondragleave|@ondragover|@ondragstart|@ondrop|@ondurationchange|@onemptied|@onended|@onerror|@onfocus|@oninput|@oninvalid|@onkeydown|@onkeypress|@onkeyup|@onload|@onloadeddata|@onloadedmetadata|@onloadstart|@onmousedown|@onmousemove|@onmouseout|@onmouseover|@onmouseup|@onmousewheel|@onpause|@onplay|@onplaying|@onprogress|@onratechange|@onreset|@onscroll|@onseeked|@onseeking|@onselect|@onshow|@onstalled|@onsubmit|@onsuspend|@ontimeupdate|@onvolumechange|@onwaiting|@*[not(namespace-uri()=('','http://www.w3.org/1999/xhtml')) or starts-with(local-name(),'data-')]"/>
