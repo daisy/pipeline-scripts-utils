@@ -17,8 +17,6 @@
     <xsl:variable name="doc-base"
         select="if (/html/head/base[@href][1]) then resolve-uri(normalize-space(/html/head/base[@href][1]/@href),base-uri(/)) else base-uri(/)"/>
     
-    <!--TODO handle SVG references-->
-    
     <xsl:template match="/*">
         <!--
         Builds a file set with all the resources referenced from the HTML.
@@ -62,7 +60,7 @@
         </xsl:if>
         <xsl:if test="$rel='stylesheet' and (@type='text/css' or pf:get-extension(@href)='css')">
             <xsl:variable name="original-href"
-                select="resolve-uri(if (@data-original-href) then @data-original-href else @href,base-uri(.))"/>
+                select="resolve-uri(if (@data-original-href) then @data-original-href else normalize-space(@href),base-uri(.))"/>
             <xsl:if test="unparsed-text-available($original-href)">
                 <xsl:for-each
                     select="f:get-css-resources(unparsed-text($original-href),$original-href)">
@@ -116,7 +114,6 @@
     
     
     <xsl:template match="audio[@src]|video[@src]">
-        <!--TODO handle video-->
         <xsl:sequence select="f:fileset-entry(@src,(),true())"/>
     </xsl:template>
     
@@ -191,10 +188,17 @@
         <!--string or attribute-->
         <xsl:param name="type" as="xs:string?"/>
         <xsl:param name="allow-remote" as="xs:boolean?"/>
-        <xsl:variable name="href" select="normalize-space($uri)"/>
+        <xsl:variable name="href" select="pf:normalize-uri($uri)"/>
         <xsl:choose>
             <xsl:when test="not($href)"/>
             <!--ignore empty href-->
+            <xsl:when test="starts-with($href,'file:')">
+                <d:file href="{pf:relativize-uri($href,$doc-base)}" original-href="{$href}">
+                    <xsl:if test="$type">
+                        <xsl:attribute name="media-type" select="$type"/>
+                    </xsl:if>
+                </d:file>
+            </xsl:when>
             <xsl:when test="pf:is-absolute($href) and not($allow-remote)">
                 <xsl:message><![CDATA[[WARNING] remote resource ']]><xsl:value-of select="$href"
                 /><![CDATA[' should be made local.]]></xsl:message>
@@ -260,14 +264,15 @@
                 <!--TODO remove query fragments, check that URL is relative-->
                 <xsl:sequence
                     select="if ($url and unparsed-text-available(resolve-uri($url,$css-base))) 
-                    then f:get-css-resources(unparsed-text(resolve-uri($url,$css-base)),$url)
+                    then f:get-css-resources(unparsed-text(resolve-uri($url,$css-base)),resolve-uri($url,$css-base))
                     else ()"
                 />
             </xsl:matching-substring>
             <xsl:non-matching-substring>
                 <xsl:analyze-string select="." regex="url\(\s*(.*?)\s*\)">
                     <xsl:matching-substring>
-                        <xsl:sequence select="f:parse-css-url(regex-group(1))"/>
+                        <xsl:variable name="url" select="f:parse-css-url(regex-group(1))"/>
+                        <xsl:sequence select="if ($url) then resolve-uri($url,$css-base) else ()"/>
                     </xsl:matching-substring>
                 </xsl:analyze-string>
             </xsl:non-matching-substring>
