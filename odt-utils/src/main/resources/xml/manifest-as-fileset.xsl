@@ -15,12 +15,19 @@
     </xsl:template>
     
     <xsl:template match="manifest:file-entry">
+        <xsl:variable name="path" select="@manifest:full-path"/>
         <xsl:element name="d:file">
-            <xsl:attribute name="href" select="@manifest:full-path"/>
+            <xsl:attribute name="href" select="$path"/>
             <xsl:if test="$original-base!=''">
-                <xsl:attribute name="original-href" select="resolve-uri(@manifest:full-path, $original-base)"/>
+                <xsl:attribute name="original-href" select="resolve-uri($path, $original-base)"/>
             </xsl:if>
-            <xsl:attribute name="media-type" select="@manifest:media-type"/>
+            <xsl:attribute name="media-type"
+                           select="if (@manifest:media-type='text/xml' and
+                                       ends-with($path, '/content.xml') and
+                                       //manifest:file-entry[@manifest:full-path=replace($path, '^(.*)content\.xml$', '$1') and
+                                                             @manifest:media-type='application/vnd.oasis.opendocument.formula'])
+                                   then 'application/mathml+xml'
+                                   else @manifest:media-type"/>
         </xsl:element>
     </xsl:template>
     
@@ -31,6 +38,6 @@
         </xsl:element>
     </xsl:template>
     
-    <xsl:template match="manifest:file-entry[ends-with(@manifest:full-path,'/') and not(@manifest:full-path='/')]"/>
+    <xsl:template match="manifest:file-entry[ends-with(@manifest:full-path, '/')]" priority="-1"/>
     
 </xsl:stylesheet>

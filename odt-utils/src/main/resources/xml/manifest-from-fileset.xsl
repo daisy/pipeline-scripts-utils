@@ -33,12 +33,27 @@
     </xsl:template>
     
     <xsl:template match="d:file">
-        <xsl:variable name="relative-uri" select="pf:relativize-uri(resolve-uri(@href,base-uri(.)), $base)"/>
+        <xsl:variable name="absolute-uri" select="resolve-uri(@href,base-uri(.))"/>
+        <xsl:variable name="relative-uri" select="pf:relativize-uri($absolute-uri, $base)"/>
         <xsl:if test="not(pf:is-absolute($relative-uri))">
-            <xsl:element name="manifest:file-entry">
-                <xsl:attribute name="manifest:full-path" select="$relative-uri"/>
-                <xsl:attribute name="manifest:media-type" select="@media-type"/>
-            </xsl:element>
+            <xsl:choose>
+                <xsl:when test="@media-type='application/mathml+xml' and ends-with($relative-uri, '/content.xml')">
+                    <xsl:element name="manifest:file-entry">
+                        <xsl:attribute name="manifest:full-path" select="$relative-uri"/>
+                        <xsl:attribute name="manifest:media-type" select="'text/xml'"/>
+                    </xsl:element>
+                    <xsl:element name="manifest:file-entry">
+                        <xsl:attribute name="manifest:full-path" select="replace($relative-uri, '^(.*)content\.xml$', '$1')"/>
+                        <xsl:attribute name="manifest:media-type" select="'application/vnd.oasis.opendocument.formula'"/>
+                    </xsl:element>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:element name="manifest:file-entry">
+                        <xsl:attribute name="manifest:full-path" select="$relative-uri"/>
+                        <xsl:attribute name="manifest:media-type" select="@media-type"/>
+                    </xsl:element>
+                </xsl:otherwise>
+            </xsl:choose>
         </xsl:if>
     </xsl:template>
     
