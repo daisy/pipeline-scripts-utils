@@ -15,6 +15,10 @@
     
     <p:option name="href" required="true"/>
     
+    <p:output port="result" primary="false">
+        <p:pipe step="result" port="result"/>
+    </p:output>
+    
     <p:import href="utils/normalize-uri.xpl"/>
     <p:import href="utils/my-fileset-store.xpl"/>
     <p:import href="http://www.daisy.org/pipeline/modules/fileset-utils/xproc/fileset-library.xpl"/>
@@ -120,6 +124,14 @@
             <p:pipe step="href" port="result"/>
         </p:with-option>
     </px:zip>
-    <p:sink/>
+    
+    <p:string-replace match="/c:result/text()" name="result">
+        <p:input port="source">
+            <p:inline>
+                <c:result>$href</c:result>
+            </p:inline>
+        </p:input>
+        <p:with-option name="replace" select="concat('&quot;', /c:zipfile/@href, '&quot;')"/>
+    </p:string-replace>
     
 </p:declare-step>
