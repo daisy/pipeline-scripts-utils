@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<i18n>
+    <!-- Note: these translations were translated using http://nicetranslator.com/ -->
+    <text xml:lang="en">Guide</text>
+    <text xml:lang="ar">دليل</text>
+    <text xml:lang="bg">Ръководство</text>
+    <text xml:lang="ca">Guia</text>
+    <text xml:lang="zh-CHS">指南</text>
+    <text xml:lang="zh-CHT">指南</text>
+    <text xml:lang="cs">Průvodce</text>
+    <text xml:lang="da">Guide</text>
+    <text xml:lang="nl">Gids</text>
+    <text xml:lang="et">Juhend</text>
+    <text xml:lang="fi">Opas</text>
+    <text xml:lang="fr">Guide</text>
+    <text xml:lang="de">Anleitung</text>
+    <text xml:lang="el">Οδηγός</text>
+    <text xml:lang="ht">Gid</text>
+    <text xml:lang="he">מדריך</text>
+    <text xml:lang="hi">गाइड</text>
+    <text xml:lang="mww">Qhia txog</text>
+    <text xml:lang="hu">Útmutató</text>
+    <text xml:lang="id">Panduan</text>
+    <text xml:lang="it">Guida</text>
+    <text xml:lang="ja">ガイド</text>
+    <text xml:lang="tlh">Dev</text>
+    <text xml:lang="tlh-QON"></text>
+    <text xml:lang="ko">가이드</text>
+    <text xml:lang="lv">Rokasgrāmata</text>
+    <text xml:lang="lt">Vadovas</text>
+    <text xml:lang="ms">Panduan</text>
+    <text xml:lang="no">Guide</text>
+    <text xml:lang="fa">راهنمای</text>
+    <text xml:lang="pl">Przewodnik</text>
+    <text xml:lang="pt">Guia</text>
+    <text xml:lang="ro">Ghid</text>
+    <text xml:lang="ru">Путеводитель</text>
+    <text xml:lang="sk">Sprievodca</text>
+    <text xml:lang="sl">Vodnik</text>
+    <text xml:lang="es">Guía</text>
+    <text xml:lang="sv">Guide</text>
+    <text xml:lang="th">คำแนะนำ</text>
+    <text xml:lang="tr">Kılavuzu</text>
+    <text xml:lang="uk">Керівництво</text>
+    <text xml:lang="ur">ہدایت نامہ</text>
+    <text xml:lang="vi">Hướng dẫn</text>
+</i18n>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="2.0" xmlns="http://www.idpf.org/2007/opf" xmlns:f="http://www.daisy.org/ns/pipeline/internal-functions">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="2.0" xmlns="http://www.idpf.org/2007/opf" xmlns:f="http://www.daisy.org/ns/pipeline/internal-functions" exclude-result-prefixes="#all">
     <xsl:output indent="yes"/>
     <xsl:param name="result-uri"/>
 

@@ -519,9 +519,7 @@
             </p:when>
             <p:otherwise>
                 <p:xslt>
-                    <p:input port="parameters">
-                        <p:empty/>
-                    </p:input>
+                    <p:with-param name="opf-base" select="$result-uri"/>
                     <p:input port="stylesheet">
                         <p:document href="http://www.daisy.org/pipeline/modules/epub3-nav-utils/nav-to-guide.xsl"/>
                     </p:input>

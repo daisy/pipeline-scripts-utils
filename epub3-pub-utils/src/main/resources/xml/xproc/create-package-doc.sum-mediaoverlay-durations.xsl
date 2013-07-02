@@ -4,7 +4,7 @@
     <xsl:include href="http://www.daisy.org/pipeline/modules/mediaoverlay-utils/clock-functions.xsl"/>
     <xsl:template match="/*">
         <meta property="media:duration">
-            <xsl:value-of select="pf:mediaoverlay-seconds-to-clock-value(round-half-to-even(sum(//opf:meta/pf:mediaoverlay-clock-value-to-seconds(.)), 4))"/>
+            <xsl:value-of select="pf:mediaoverlay-seconds-to-full-clock-value(round-half-to-even(sum(//opf:meta/pf:mediaoverlay-clock-value-to-seconds(.)), 4))"/>
         </meta>
     </xsl:template>
 </xsl:stylesheet>

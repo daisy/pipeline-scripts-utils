@@ -9,11 +9,9 @@
     <p:import href="http://xmlcalabash.com/extension/steps/library-1.0.xpl">
         <p:documentation>Calabash extension steps.</p:documentation>
     </p:import>
-    <p:import href="join.xpl"/>
 
     <p:group name="rearrange.mediaoverlay-map">
         <p:output port="result"/>
-        <!--<px:mediaoverlay-join/>-->
         <!--TODO shouldn't need to rely on @xml:base -->
         <p:for-each>
             <p:add-xml-base all="true" relative="false"/>

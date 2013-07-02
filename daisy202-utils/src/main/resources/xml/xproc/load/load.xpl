@@ -28,15 +28,31 @@
     <p:import href="http://www.daisy.org/pipeline/modules/html-utils/html-library.xpl"/>
     <p:import href="http://www.daisy.org/pipeline/modules/fileset-utils/xproc/fileset-library.xpl"/>
     <p:import href="http://www.daisy.org/pipeline/modules/mediatype-utils/mediatype.xpl"/>
-
-    <cx:message>
+    
+    <p:xslt>
+        <p:with-param name="href" select="$ncc"/>
         <p:input port="source">
-            <p:empty/>
+            <p:inline>
+                <doc/>
+            </p:inline>
         </p:input>
-        <p:with-option name="message" select="concat('loading ',$ncc,'...')"/>
+        <p:input port="stylesheet">
+            <p:inline>
+                <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:pf="http://www.daisy.org/ns/pipeline/functions" version="2.0" exclude-result-prefixes="#all">
+                    <xsl:import href="http://www.daisy.org/pipeline/modules/file-utils/xslt/uri-functions.xsl"/>
+                    <xsl:param name="href" required="yes"/>
+                    <xsl:template match="/*">
+                        <d:file href="{pf:normalize-uri($href)}"/>
+                    </xsl:template>
+                </xsl:stylesheet>
+            </p:inline>
+        </p:input>
+    </p:xslt>
+    <cx:message>
+        <p:with-option name="message" select="concat('loading NCC: ',/*/@href)"/>
     </cx:message>
     <px:html-load name="in-memory.ncc">
-        <p:with-option name="href" select="$ncc"/>
+        <p:with-option name="href" select="/*/@href"/>
     </px:html-load>
 
     <cx:message message="Making an ordered list of SMIL-files referenced from the NCC according to the flow (reading order)"/>
@@ -108,15 +124,21 @@
     <p:identity name="in-memory.html"/>
 
     <cx:message message="Listing all resources referenced from the HTML files"/>
-    <p:for-each>
-        <p:xslt>
+    <p:for-each name="fileset.html-resources.for-each">
+        <px:html-to-fileset/>
+        <cx:message>
+            <p:with-option name="message" select="concat('extracted list of resources from ',replace(base-uri(/*),'^.*/',''))">
+                <p:pipe port="current" step="fileset.html-resources.for-each"/>
+            </p:with-option>
+        </cx:message>
+        <!--<p:xslt>
             <p:input port="parameters">
                 <p:empty/>
             </p:input>
             <p:input port="stylesheet">
                 <p:document href="make-resource-fileset.xsl"/>
             </p:input>
-        </p:xslt>
+        </p:xslt>-->
     </p:for-each>
     <px:fileset-join name="fileset.html-resources"/>
 

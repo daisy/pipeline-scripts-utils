@@ -6,7 +6,7 @@
         <meta property="media:duration">
             <xsl:value-of
                 select="
-                pf:mediaoverlay-seconds-to-clock-value(round-half-to-even(
+                pf:mediaoverlay-seconds-to-full-clock-value(round-half-to-even(
                         sum(//mo:audio[@clipEnd]/pf:mediaoverlay-clock-value-to-seconds(@clipEnd))
                     -   sum(//mo:audio[@clipEnd and @clipBegin]/pf:mediaoverlay-clock-value-to-seconds(@clipBegin))
                 , 4))
