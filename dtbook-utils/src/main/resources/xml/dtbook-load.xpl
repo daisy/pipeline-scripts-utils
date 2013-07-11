@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <p:declare-step version="1.0" name="main" type="px:dtbook-load"
+    xmlns:m="http://www.w3.org/1998/Math/MathML"
     xmlns:p="http://www.w3.org/ns/xproc" xmlns:cx="http://xmlcalabash.com/ns/extensions"
     xmlns:px="http://www.daisy.org/ns/pipeline/xproc">
 
@@ -55,10 +56,24 @@
                 <p:with-option name="href" select="$src"/>
             </px:fileset-add-entry>
         </p:for-each>
+        <p:for-each name="fileset.mathml">
+            <p:output port="result"/>
+            <p:iteration-source select="//m:math[@altimg]">
+                <p:pipe port="result" step="for-each.dtbook"/>
+            </p:iteration-source>
+            <p:variable name="src" select="/*/@altimg"/>
+            <px:fileset-add-entry>
+                <p:input port="source">
+                    <p:pipe port="result" step="for-each.fileset"/>
+                </p:input>
+                <p:with-option name="href" select="$src"/>
+            </px:fileset-add-entry>
+        </p:for-each>
         <px:fileset-join>
             <p:input port="source">
                 <p:pipe port="result" step="fileset.dtbook"/>
                 <p:pipe port="result" step="fileset.resources"/>
+                <p:pipe port="result" step="fileset.mathml"/>
             </p:input>
         </px:fileset-join>
     </p:for-each>
