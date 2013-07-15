@@ -32,16 +32,8 @@
                     <!--  remove doctypes etc (<!DOCTYPE html> doesn't work with p:unescape-markup)  -->
                     <p:string-replace match="/*/text()[1]"
                         replace="replace(/*/text()[1],'^&lt;[!\?].*?(&lt;[^!\?])','$1','s')"/>
-                    <p:unescape-markup content-type="text/html"/>
+                    <p:unescape-markup content-type="text/html" namespace="http://www.w3.org/1999/xhtml"/>
                     <p:unwrap match="c:body"/>
-                    <p:xslt>
-                        <p:input port="parameters">
-                            <p:empty/>
-                        </p:input>
-                        <p:input port="stylesheet">
-                            <p:document href="../xslt/remove-unused-namespaces.xsl"/>
-                        </p:input>
-                    </p:xslt>
                 </p:group>
                 <p:catch>
                     <p:in-scope-names name="vars"/>
@@ -68,4 +60,12 @@
             </p:try>
         </p:catch>
     </p:try>
+    <p:xslt>
+        <p:input port="parameters">
+            <p:empty/>
+        </p:input>
+        <p:input port="stylesheet">
+            <p:document href="../xslt/namespace-fixup.xsl"/>
+        </p:input>
+    </p:xslt>
 </p:declare-step>
