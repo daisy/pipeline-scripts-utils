@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns="http://www.w3.org/1999/xhtml" xmlns:d="http://www.daisy.org/ns/pipeline/data"
+    xmlns:x="http://www.jenitennison.com/xslt/xspec"
+    stylesheet="../../main/resources/xml/xslt/html-to-fileset.xsl">
+    
+    <x:variable name="doc-base" select="'file:/example/doc.html'"/>
+    
+    <!--TODO add more tests, for other HTML elements-->
+
+    <x:scenario label="The base URI">
+        <x:scenario label="of the HTML document">
+            <x:context>
+                <html/>
+            </x:context>
+            <x:expect label="is set to the fileset">
+                <d:fileset xml:base="file:/example/"/>
+            </x:expect>
+        </x:scenario>
+        
+    </x:scenario>
+    
+    <x:scenario label="'img' element">
+        <x:scenario label="with no @src">
+            <x:context>
+                <html>
+                    <img/>
+                </html>
+            </x:context>
+            <x:expect label="produces no fileset entry" test="empty(//d:file)"/>
+        </x:scenario>
+        <x:scenario label="with an empty @src">
+            <x:context>
+                <html>
+                    <img src=""/>
+                </html>
+            </x:context>
+            <x:expect label="produces no fileset entry" test="empty(//d:file)"/>
+        </x:scenario>
+        <x:scenario label="with a relative URI">
+            <x:context>
+                <html>
+                    <img src="my-image.png" xml:base="file:/my-base/"/>
+                </html>
+            </x:context>
+            <x:expect label="produces a fileset entry resolved to the attribute base" test="//d:file">
+                <d:file href="my-image.png" media-type="image/png" original-href="file:/my-base/my-image.png"/>
+            </x:expect>
+        </x:scenario>
+        <x:scenario label="with a relative URI and an original href">
+            <x:context>
+                <html>
+                    <img src="my-image.png" data-original-href="file:/other-base/other-uri.png" xml:base="file:/my-base/"/>
+                </html>
+            </x:context>
+            <x:expect label="produces a fileset entry and copies the original href" test="//d:file">
+                <d:file href="my-image.png" media-type="image/png" original-href="file:/other-base/other-uri.png"/>
+            </x:expect>
+        </x:scenario>
+        <x:scenario label="with an absolute file URI">
+            <x:context>
+                <html>
+                    <img src="file:/example/my-image.png"/>
+                </html>
+            </x:context>
+            <x:expect label="produces a fileset entry relativized to the fileset base" test="//d:file">
+                <d:file href="my-image.png" media-type="image/png" original-href="file:/example/my-image.png"/>
+            </x:expect>
+        </x:scenario>
+        <x:scenario label="with a 'data' URI">
+            <x:context>
+                <html>
+                    <img src="data:image/png;base64,ABCDEFG"/>
+                </html>
+            </x:context>
+            <x:expect label="produces no fileset entry" test="empty(//d:file)"/>
+        </x:scenario>
+        <x:scenario label="with an absolute remote URI">
+            <x:context>
+                <html>
+                    <img src="http:/www.example.org/my-image.png"/>
+                </html>
+            </x:context>
+            <x:expect label="produces no fileset entry" test="empty(//d:file)"/>
+        </x:scenario>
+    </x:scenario>
+
+</x:description>
