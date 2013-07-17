@@ -18,7 +18,7 @@
     <!-- integer -->
 
     <p:for-each name="tocs">
-        <p:output port="result"/>
+        <p:output port="result" sequence="true"/>
         <p:variable name="base-uri" select="p:base-uri(/*)"/>
         <p:variable name="base-ref"
             select="if (starts-with($base-uri,$base-dir)) 
@@ -33,10 +33,10 @@
                 <p:empty/>
             </p:input>
         </p:xslt>
-        <p:filter select="/h:ol/h:li[1]"/>
         <p:string-replace match="//@href">
             <p:with-option name="replace" select="concat('concat(&quot;',$base-ref,'&quot;,.)')"/>
         </p:string-replace>
+        <p:filter select="/h:ol/h:li"/>
     </p:for-each>
 
     <p:insert match="/h:nav/h:ol" position="first-child">
