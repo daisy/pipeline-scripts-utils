@@ -5,6 +5,10 @@
   
   <p:import href="store.xpl"/>
   <p:import href="load.xpl"/>
+  <p:import href="get-file.xpl"/>
+  <p:import href="update-files.xpl"/>
+  <p:import href="embed-images.xpl"/>
+  <p:import href="separate-mathml.xpl"/>
   
   <p:documentation xmlns="http://www.w3.org/1999/xhtml">
     <p>Exports the OpenDocument Text file represented by <code>href</code> to a

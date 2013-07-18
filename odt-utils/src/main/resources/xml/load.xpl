@@ -18,13 +18,10 @@
         <p:pipe step="fileset" port="result"/>
     </p:output>
     <p:output port="in-memory.out" sequence="true">
-        <p:pipe step="in-memory" port="in-memory.out"/>
+        <p:empty/>
     </p:output>
     
-    <p:import href="utils/my-fileset-load.xpl"/>
     <p:import href="http://www.daisy.org/pipeline/modules/zip-utils/xproc/zip-library.xpl"/>
-    <p:import href="http://www.daisy.org/pipeline/modules/file-utils/xproc/file-library.xpl"/>
-    <p:import href="http://www.daisy.org/pipeline/modules/fileset-utils/xproc/fileset-library.xpl"/>
     
     <!-- ==================== -->
     <!-- Extract ODT manifest -->
@@ -52,17 +49,5 @@
         <p:with-param name="base" select="$target"/>
         <p:with-param name="original-base" select="concat($href, '!/')"/>
     </p:xslt>
-    
-    <!-- ========================== -->
-    <!-- Load xml files into memory -->
-    <!-- ========================== -->
-    
-    <px:fileset-filter media-types="text/xml application/rdf+xml"/>
-    
-    <pxi:my-fileset-load name="in-memory">
-        <p:input port="in-memory.in">
-            <p:empty/>
-        </p:input>
-    </pxi:my-fileset-load>
     
 </p:declare-step>
