@@ -45,14 +45,27 @@
 
     <p:import href="http://xmlcalabash.com/extension/steps/library-1.0.xpl"/>
     
+    <p:import href="http://www.daisy.org/pipeline/modules/dtbook-validator/dtbook-validator.select-schema.xpl">
+        <p:documentation>
+            Schema selector used for DTBook validation.
+        </p:documentation>
+    </p:import>
+    
     <p:import href="http://www.daisy.org/pipeline/modules/validation-utils/validation-utils-library.xpl">
         <p:documentation>
             Collection of utilities for validation and reporting.
         </p:documentation>
     </p:import>
     
+    <!--Loads the DTBook schema-->
+    <px:dtbook-validator.select-schema name="dtbook-schema" dtbook-version="2005-3" mathml-version="2.0"/>
+    
     <!--Store the first DTBook for later reference-->    
-    <p:split-sequence name="first-dtbook" initial-only="true" test="position()=1"/>
+    <p:split-sequence name="first-dtbook" initial-only="true" test="position()=1">
+        <p:input port="source">
+            <p:pipe port="source" step="merge-dtbook"/>
+        </p:input>
+    </p:split-sequence>
     <cx:message message="Merging DTBook documents"/>
     <p:sink/>
 
@@ -65,7 +78,7 @@
 
         <px:validate-with-relax-ng-and-report>
             <p:input port="schema">
-                <p:document href="schema/dtbook-2005-3.rng"/>
+                <p:pipe port="result" step="dtbook-schema"/>
             </p:input>
             <p:with-option name="assert-valid" select="$assert-valid"/>
         </px:validate-with-relax-ng-and-report>
@@ -83,7 +96,7 @@
     
     <px:validate-with-relax-ng-and-report name="validate-dtbook">
         <p:input port="schema">
-            <p:document href="./schema/dtbook-2005-3.rng"/>
+            <p:pipe port="result" step="dtbook-schema"/>
         </p:input>
         <p:with-option name="assert-valid" select="$assert-valid"/>
     </px:validate-with-relax-ng-and-report>
