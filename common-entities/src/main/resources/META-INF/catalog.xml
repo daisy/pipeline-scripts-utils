@@ -9,6 +9,9 @@
 
 	<public publicId='-//NISO//DTD dtbook 2005-3//EN' uri='dtbook-2005-3.dtd'/>
 	<system systemId='http://www.daisy.org/z3986/2005/dtbook-2005-3.dtd' uri='dtbook-2005-3.dtd'/>
+	
+	<public publicId='-//NISO//DTD ncx 2005-1//EN' uri='ncx-2005-1.dtd'/>
+	<system systemId='http://www.daisy.org/z3986/2005/ncx-2005-1.dtd' uri='ncx-2005-1.dtd'/>
 
 	<public publicId='-//W3C//DTD SMIL 1.0//EN' uri='SMIL10.dtd'/>
 	<system systemId='http://www.w3.org/TR/REC-smil/SMIL10.dtd' uri='SMIL10.dtd'/>
