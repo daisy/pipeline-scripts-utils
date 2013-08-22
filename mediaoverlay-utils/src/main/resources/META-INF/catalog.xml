@@ -6,8 +6,6 @@
         uri="../xml/upgrade-smil.xpl"/>
    <uri name="http://www.daisy.org/pipeline/modules/mediaoverlay-utils/rearrange.xpl"
         uri="../xml/rearrange.xpl"/>
-   <uri name="http://www.daisy.org/pipeline/modules/mediaoverlay-utils/rearrange-content.xpl"
-        uri="../xml/rearrange-content.xpl"/>
    <uri name="http://www.daisy.org/pipeline/modules/mediaoverlay-utils/smil-to-text-fileset.xsl"
         uri="../xml/smil-to-text-fileset.xsl"/>
    <uri name="http://www.daisy.org/pipeline/modules/mediaoverlay-utils/smil-to-audio-fileset.xsl"

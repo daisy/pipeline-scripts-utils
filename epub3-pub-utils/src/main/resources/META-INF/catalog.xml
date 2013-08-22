@@ -2,12 +2,6 @@
 <catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">
    <uri name="http://www.daisy.org/pipeline/modules/epub3-pub-utils/xproc/epub3-pub-library.xpl"
         uri="../xml/xproc/epub3-pub-library.xpl"/>
-   <uri name="http://www.daisy.org/pipeline/modules/epub3-pub-utils/xslt/fileset-to-manifest.xsl"
-        uri="../xml/xslt/fileset-to-manifest.xsl"/>
-   <uri name="http://www.daisy.org/pipeline/modules/epub3-pub-utils/xslt/fileset-to-spine.xsl"
-        uri="../xml/xslt/fileset-to-spine.xsl"/>
-   <uri name="http://www.daisy.org/pipeline/modules/epub3-pub-utils/xslt/manifest-to-spine.xsl"
-        uri="../xml/xslt/manifest-to-spine.xsl"/>
    <nextCatalog catalog="org:daisy:pipeline:modules:fileset-utils"/>
    <nextCatalog catalog="org:daisy:pipeline:modules:mediatype-utils"/>
    <nextCatalog catalog="org:daisy:pipeline:modules:epub3-nav-utils"/>
