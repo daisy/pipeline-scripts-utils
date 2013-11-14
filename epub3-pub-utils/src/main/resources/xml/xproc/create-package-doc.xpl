@@ -10,7 +10,11 @@
             <d:fileset/>
         </p:inline>
     </p:input>
-    <p:input port="metadata"/>
+    <p:input port="metadata" sequence="true">
+        <p:inline>
+            <opf:metadata/>
+        </p:inline>
+    </p:input>
     <p:input port="bindings" sequence="true">
         <p:empty/>
     </p:input>
@@ -72,53 +76,28 @@
 
     <p:group name="metadata">
         <p:output port="result"/>
-        <p:identity>
+        <p:uuid name="default-metadata" match="dc:identifier/text()">
+            <p:input port="source">
+                <p:inline>
+                    <opf:metadata>
+                        <dc:title>Unknown</dc:title>
+                        <dc:identifier>generated-uuid</dc:identifier>
+                    </opf:metadata>
+                </p:inline>
+            </p:input>
+        </p:uuid>
+        <p:wrap-sequence wrapper="wrapper">
             <p:input port="source">
                 <p:pipe port="metadata" step="main"/>
+                <p:pipe port="result" step="default-metadata"/>
             </p:input>
-        </p:identity>
-        <p:choose>
-            <p:when test="empty(/opf:metadata/dc:identifier)">
-                <p:insert match="opf:metadata" position="first-child">
-                    <p:input port="insertion">
-                        <p:inline exclude-inline-prefixes="#all">
-                            <dc:identifier id="pub-id">@@</dc:identifier>
-                        </p:inline>
-                        <p:inline xmlns="http://www.idpf.org/2007/opf" exclude-inline-prefixes="#all">
-                            <meta refines="#pub-id" property="identifier-type" scheme="xsd:string">uuid</meta>
-                        </p:inline>
-                    </p:input>
-                </p:insert>
-                <p:uuid match="dc:identifier/text()"/>
-            </p:when>
-            <p:otherwise>
-                <p:identity/>
-            </p:otherwise>
-        </p:choose>
-        <p:choose>
-            <p:when test="/opf:metadata/dc:identifier/@id">
-                <p:identity/>
-            </p:when>
-            <p:when test="//@id='pub-id'">
-                <p:xslt>
-                    <p:input port="parameters">
-                        <p:empty/>
-                    </p:input>
-                    <p:input port="stylesheet">
-                        <p:document href="create-package-doc.generate-identifier.xsl"/>
-                    </p:input>
-                </p:xslt>
-            </p:when>
-            <p:otherwise>
-                <p:add-attribute match="/opf:metadata/dc:identifier" attribute-name="id" attribute-value="pub-id"/>
-            </p:otherwise>
-        </p:choose>
+        </p:wrap-sequence>
         <p:xslt>
+            <p:input port="stylesheet">
+                <p:document href="create-package-doc.merge-metadata.xsl"/>
+            </p:input>
             <p:input port="parameters">
                 <p:empty/>
-            </p:input>
-            <p:input port="stylesheet">
-                <p:document href="create-package-doc.generate-dcterms-modified.xsl"/>
             </p:input>
         </p:xslt>
         <p:delete match="opf:meta[@property='media:duration']"/>
