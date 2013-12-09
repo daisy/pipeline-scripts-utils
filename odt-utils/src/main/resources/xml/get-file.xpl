@@ -25,7 +25,7 @@
 	</p:output>
 	
 	<p:import href="utils/my-fileset-load.xpl"/>
-	<p:import href="http://www.daisy.org/pipeline/modules/fileset-utils/xproc/fileset-library.xpl"/>
+	<p:import href="http://www.daisy.org/pipeline/modules/fileset-utils/library.xpl"/>
 	
 	<p:variable name="base" select="//d:file[starts-with(@media-type,'application/vnd.oasis.opendocument')]/resolve-uri(@href, base-uri(.))">
 		<p:pipe step="get-file" port="fileset.in"/>

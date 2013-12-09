@@ -29,7 +29,7 @@
 	
 	<p:import href="get-file.xpl"/>
 	<p:import href="update-files.xpl"/>
-	<p:import href="http://www.daisy.org/pipeline/modules/fileset-utils/xproc/fileset-library.xpl"/>
+	<p:import href="http://www.daisy.org/pipeline/modules/fileset-utils/library.xpl"/>
 	<p:import href="http://xmlcalabash.com/extension/steps/library-1.0.xpl"/>
 	
 	<p:variable name="base" select="//d:file[starts-with(@media-type,'application/vnd.oasis.opendocument')]/resolve-uri(@href, base-uri(.))">

@@ -12,7 +12,7 @@
     
     <p:import href="my-fileset-from-in-memory.xpl"/>
     <p:import href="my-fileset-load.xpl"/>
-    <p:import href="http://www.daisy.org/pipeline/modules/fileset-utils/xproc/fileset-library.xpl"/>
+    <p:import href="http://www.daisy.org/pipeline/modules/fileset-utils/library.xpl"/>
     
     <!-- ============================= -->
     <!-- Load zipped files into memory -->

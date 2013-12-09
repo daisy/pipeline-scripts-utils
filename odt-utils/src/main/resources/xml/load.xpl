@@ -21,7 +21,7 @@
         <p:empty/>
     </p:output>
     
-    <p:import href="http://www.daisy.org/pipeline/modules/zip-utils/xproc/zip-library.xpl"/>
+    <p:import href="http://www.daisy.org/pipeline/modules/zip-utils/library.xpl"/>
     
     <!-- ==================== -->
     <!-- Extract ODT manifest -->

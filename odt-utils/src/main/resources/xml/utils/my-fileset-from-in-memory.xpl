@@ -9,7 +9,7 @@
     <p:input port="source" sequence="true"/>
     <p:output port="result"/>
     
-    <p:import href="http://www.daisy.org/pipeline/modules/fileset-utils/xproc/fileset-library.xpl"/>
+    <p:import href="http://www.daisy.org/pipeline/modules/fileset-utils/library.xpl"/>
     
     <px:fileset-create name="base" base="/"/>
     <p:sink/>
