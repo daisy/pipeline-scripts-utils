@@ -13,14 +13,14 @@
     <xsl:template match="d:fileset">
         <xsl:if test="not($base)">
             <xsl:message terminate="yes">
-                <xsl:text>[ODT] ERROR: manifest could not be created from fileset, no entry with media-type application/vnd.oasis.opendocument*</xsl:text>
+                <xsl:text>[odt-utils] ERROR: manifest could not be created from fileset, no entry with media-type application/vnd.oasis.opendocument*</xsl:text>
             </xsl:message>
         </xsl:if>
         <xsl:element name="manifest:manifest">
             <xsl:attribute name="manifest:version" select="'1.2'"/>
             <xsl:attribute name="xml:base" select="resolve-uri('META-INF/manifest.xml', $base)"/>
             <xsl:apply-templates select="d:file"/>
-            <xsl:if test="d:file[starts-with(pf:relativize-uri(resolve-uri(@href, base-uri(.)), $base), 'Configuration2/')]">
+            <xsl:if test="d:file[starts-with(pf:relativize-uri(resolve-uri(@href, base-uri(.)), $base), 'Configurations2/')]">
                 <xsl:element name="manifest:file-entry">
                     <xsl:attribute name="manifest:full-path" select="'Configurations2/'"/>
                     <xsl:attribute name="manifest:media-type" select="'application/vnd.sun.xml.ui.configuration'"/>
@@ -63,7 +63,7 @@
             </xsl:when>
             <xsl:otherwise>
                 <xsl:message>
-                    <xsl:text>[ODT] WARNING: the file </xsl:text>
+                    <xsl:text>[odt-utils] WARNING: the file </xsl:text>
                     <xsl:value-of select="$absolute-uri"/>
                     <xsl:text> will not be included in the manifest because it falls outside of the base directory </xsl:text>
                     <xsl:value-of select="$base"/>

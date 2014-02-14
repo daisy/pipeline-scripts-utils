@@ -20,7 +20,6 @@
     </p:output>
     
     <p:import href="utils/normalize-uri.xpl"/>
-    <p:import href="utils/my-fileset-store.xpl"/>
     <p:import href="http://www.daisy.org/pipeline/modules/fileset-utils/library.xpl"/>
     <p:import href="http://www.daisy.org/pipeline/modules/zip-utils/library.xpl"/>
     
@@ -93,13 +92,13 @@
     <!-- Store files to disk -->
     <!-- =================== -->
     
-    <pxi:my-fileset-store name="fileset-store">
+    <px:fileset-store name="fileset-store">
         <p:input port="in-memory.in">
             <p:pipe step="store" port="in-memory.in"/>
             <p:pipe step="manifest" port="result"/>
             <p:pipe step="mimetype" port="result"/>
         </p:input>
-    </pxi:my-fileset-store>
+    </px:fileset-store>
     
     <!-- ====== -->
     <!-- Zip up -->

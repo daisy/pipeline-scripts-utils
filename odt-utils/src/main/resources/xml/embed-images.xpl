@@ -49,7 +49,7 @@
 		</p:input>
 	</odt:get-file>
 	
-	<cx:message message="[ODT] embedding images"/>
+	<cx:message message="[odt-utils] embedding images"/>
 	<p:sink/>
 	
 	<px:fileset-create name="base">

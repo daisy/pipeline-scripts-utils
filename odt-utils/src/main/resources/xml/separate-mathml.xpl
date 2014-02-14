@@ -51,7 +51,7 @@
 		</p:input>
 	</odt:get-file>
 	
-	<cx:message message="[ODT] separating mathml"/>
+	<cx:message message="[odt-utils] separating mathml"/>
 	
 	<p:viewport match="draw:object[math:math]" name="content.temp">
 		<p:variable name="href" select="concat('Math/mathml_', number($numbering-offset) + p:iteration-position())"/>

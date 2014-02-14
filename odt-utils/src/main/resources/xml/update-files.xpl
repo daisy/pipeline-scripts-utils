@@ -33,13 +33,13 @@
 			</p:xpath-context>
 			<p:when test="/*/d:file[resolve-uri(@href, base-uri())=$base]">
 				<cx:message>
-					<p:with-option name="message" select="concat('[ODT] updating file: ', $base)"/>
+					<p:with-option name="message" select="concat('[odt-utils] updating file: ', $base)"/>
 				</cx:message>
 				<p:identity/>
 			</p:when>
 			<p:otherwise>
 				<cx:message>
-					<p:with-option name="message" select="concat('[ODT] WARNING: unknown file: ', $base, ', will not be updated')"/>
+					<p:with-option name="message" select="concat('[odt-utils] WARNING: unknown file: ', $base, ', will not be updated')"/>
 				</cx:message>
 				<p:identity>
 					<p:input port="source">

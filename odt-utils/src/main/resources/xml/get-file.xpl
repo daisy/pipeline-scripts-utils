@@ -2,7 +2,6 @@
 <p:declare-step
 	xmlns:p="http://www.w3.org/ns/xproc"
 	xmlns:px="http://www.daisy.org/ns/pipeline/xproc"
-	xmlns:pxi="http://www.daisy.org/ns/pipeline/xproc/internal"
 	xmlns:c="http://www.w3.org/ns/xproc-step"
 	xmlns:d="http://www.daisy.org/ns/pipeline/data"
 	xmlns:odt="urn:oasis:names:tc:opendocument:xmlns:text:1.0"
@@ -24,7 +23,6 @@
 		<p:pipe step="maybe-load-file" port="in-memory.out"/>
 	</p:output>
 	
-	<p:import href="utils/my-fileset-load.xpl"/>
 	<p:import href="http://www.daisy.org/pipeline/modules/fileset-utils/library.xpl"/>
 	
 	<p:variable name="base" select="//d:file[starts-with(@media-type,'application/vnd.oasis.opendocument')]/resolve-uri(@href, base-uri(.))">
@@ -65,11 +63,11 @@
 				</p:input>
 				<p:with-option name="href" select="resolve-uri($href, $base)"/>
 			</px:fileset-filter>
-			<pxi:my-fileset-load name="load-file">
-				<p:input port="in-memory.in">
+			<px:fileset-load name="load-file">
+				<p:input port="in-memory">
 					<p:empty/>
 				</p:input>
-			</pxi:my-fileset-load>
+			</px:fileset-load>
 		</p:otherwise>
 	</p:choose>
 	

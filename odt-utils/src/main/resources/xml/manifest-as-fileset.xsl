@@ -21,23 +21,28 @@
             <xsl:if test="$original-base!=''">
                 <xsl:attribute name="original-href" select="resolve-uri($path, $original-base)"/>
             </xsl:if>
-            <xsl:attribute name="media-type"
-                           select="if (@manifest:media-type='text/xml' and
-                                       ends-with($path, '/content.xml') and
-                                       //manifest:file-entry[@manifest:full-path=replace($path, '^(.*)content\.xml$', '$1') and
-                                                             @manifest:media-type='application/vnd.oasis.opendocument.formula'])
-                                   then 'application/mathml+xml'
-                                   else @manifest:media-type"/>
+            <xsl:if test="not(string(@manifest:media-type)='')">
+                <xsl:attribute name="media-type"
+                               select="if (@manifest:media-type='text/xml' and
+                                           ends-with($path, '/content.xml') and
+                                           //manifest:file-entry[@manifest:full-path=replace($path, '^(.*)content\.xml$', '$1') and
+                                                                 @manifest:media-type='application/vnd.oasis.opendocument.formula'])
+                                       then 'application/mathml+xml'
+                                       else @manifest:media-type"/>
+            </xsl:if>
         </xsl:element>
     </xsl:template>
     
-    <xsl:template match="manifest:file-entry[@manifest:full-path='/' and starts-with(@manifest:media-type, 'application/vnd.oasis.opendocument')]">
+    <xsl:template match="manifest:file-entry[ends-with(@manifest:full-path, '/')]" priority="0.6"/>
+    
+    <xsl:template match="manifest:file-entry[@manifest:full-path='/' and starts-with(@manifest:media-type, 'application/vnd.oasis.opendocument')]"
+                  priority="0.7">
         <xsl:element name="d:file">
             <xsl:attribute name="href" select="'.'"/>
-            <xsl:attribute name="media-type" select="@manifest:media-type"/>
+            <xsl:if test="not(string(@manifest:media-type)='')">
+                <xsl:attribute name="media-type" select="@manifest:media-type"/>
+            </xsl:if>
         </xsl:element>
     </xsl:template>
-    
-    <xsl:template match="manifest:file-entry[ends-with(@manifest:full-path, '/')]" priority="-1"/>
     
 </xsl:stylesheet>
