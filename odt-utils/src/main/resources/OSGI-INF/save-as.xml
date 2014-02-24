@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="odt:save-as">
-   <implementation class="org.daisy.pipeline.odt.calabash.SaveAsProvider"/>
-   <service>
-      <provide interface="org.daisy.common.xproc.calabash.XProcStepProvider"/>
-   </service>
-   <property name="type" type="String" value="{urn:oasis:names:tc:opendocument:xmlns:text:1.0}save-as"/>
-</scr:component>
