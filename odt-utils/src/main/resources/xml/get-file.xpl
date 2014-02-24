@@ -51,11 +51,11 @@
 		</p:when>
 		<p:otherwise>
 			<p:output port="result" primary="true">
-				<p:pipe step="load-file" port="in-memory.out"/>
+				<p:pipe step="load-file" port="result"/>
 			</p:output>
 			<p:output port="in-memory.out" sequence="true">
 				<p:pipe step="get-file" port="in-memory.in"/>
-				<p:pipe step="load-file" port="in-memory.out"/>
+				<p:pipe step="load-file" port="result"/>
 			</p:output>
 			<px:fileset-filter>
 				<p:input port="source">
