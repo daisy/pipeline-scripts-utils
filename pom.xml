@@ -28,6 +28,7 @@
     <module>epub3-nav-utils</module>
     <module>epub3-ocf-utils</module>
     <module>epub3-pub-utils</module>
+    <module>epubcheck-adapter</module>
     <module>html-utils</module>
     <module>mediaoverlay-utils</module>
     <module>zedai-utils</module>
@@ -75,6 +76,11 @@
         <groupId>org.daisy.pipeline.modules</groupId>
         <artifactId>epub3-pub-utils</artifactId>
         <version>1.0.1-SNAPSHOT</version>
+      </dependency>
+      <dependency>
+        <groupId>org.daisy.pipeline.modules</groupId>
+        <artifactId>epub-adapter</artifactId>
+        <version>1.0.0-SNAPSHOT</version>
       </dependency>
       <dependency>
         <groupId>org.daisy.pipeline.modules</groupId>
