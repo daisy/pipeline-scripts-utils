@@ -100,12 +100,16 @@ public class EpubCheckProvider implements XProcStepProvider {
 			super.run();
 			try {
 
-				// TODO: handle file not found
-				File epubFile = new File(new URI(getOption(_epubFile).getString()));
+				URI epubURI = new URI(getOption(_epubFile).getString());
+				File epubFile = new File(epubURI);
 				String path = epubFile.getCanonicalPath();
 
-				// TODO: handle undefined and invalid values
 				String epubVersionString = getOption(_epubVersion).getString();
+				
+				if (!("3".equals(epubVersionString) || "2".equals(epubVersionString))) {
+					throw new InvalidVersionException("'"+_epubVersion.getLocalName()+"' should be either '2' or '3'");
+				}
+				
 				EPUBVersion epubVersion = EPUBVersion.VERSION_2.equals(epubVersionString) ? EPUBVersion.VERSION_2 : EPUBVersion.VERSION_3;
 				
 				String mode = getOption(_mode).getString();
@@ -147,16 +151,14 @@ public class EpubCheckProvider implements XProcStepProvider {
 						resourceProvider, (String) modeMimeTypeMap.get(opsType),
 						epubVersion);
 				
-				if (!check.validate()) {
-					// TODO: throw error here
-				}
+				check.validate();
 				
 				if (((XmlReportImpl) xmlReport).generate()) {
 					XdmNode reportXml = runtime.getProcessor().newDocumentBuilder().build(fileOut);
 					fileOut.delete();
 					report.write(reportXml);
 				} else {
-					// TODO: report error somehow
+					throw new Exception("An error occured while trying to write epubcheck report to: "+fileOut.getAbsolutePath());
 				}
 			}
 
