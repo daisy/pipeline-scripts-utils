@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<p:library xmlns:p="http://www.w3.org/ns/xproc" xmlns:px="http://www.daisy.org/ns/pipeline/xproc" version="1.0">
+<p:library xmlns:p="http://www.w3.org/ns/xproc" xmlns:px="http://www.daisy.org/ns/pipeline/xproc" xmlns:pxi="http://www.daisy.org/ns/pipeline/xproc/internal/epubcheck-adapter" version="1.0">
 
-    <p:declare-step type="px:epubcheck">
+    <p:declare-step type="pxi:epubcheck">
+        <!-- step declaration for the epubcheck-adapter implemented in java -->
+        <p:option name="epub" required="true"/>
+        <p:option name="mode" required="false"/>
+        <p:option name="version" required="false"/>
+        <p:output port="result" sequence="true"/>
+    </p:declare-step>
+
+    <p:declare-step type="px:epubcheck" name="main">
         <!-- anyFileURI to the epub -->
         <p:option name="epub" required="true"/>
 
@@ -13,6 +21,43 @@
 
         <!-- The epubcheck XML report. See Java implementation for more details about the grammar: https://github.com/IDPF/epubcheck/blob/master/src/main/java/com/adobe/epubcheck/util/XmlReportImpl.java#L176 -->
         <p:output port="result" sequence="true"/>
+
+        <p:choose>
+            <p:when test="p:step-available('pxi:epubcheck')">
+                <pxi:epubcheck>
+                    <p:with-option name="epub" select="$epub"/>
+                    <p:with-option name="mode" select="if (p:value-available('mode') and not($mode='')) then $mode else 'epub'"/>
+                    <p:with-option name="version" select="if (p:value-available('version') and not($version='')) then $version else '3'"/>
+                </pxi:epubcheck>
+            </p:when>
+            <p:otherwise>
+
+                <p:in-scope-names name="vars"/>
+                <p:template>
+                    <p:input port="template">
+                        <p:inline>
+                            <jhove xmlns="http://hul.harvard.edu/ois/xml/ns/jhove" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="epubcheck-adapter" release="x.x"
+                                date="{tokenize(string(current-date()),'\+')[1]}">
+                                <date>{current-dateTime()}</date>
+                                <repInfo uri="{$epub}">
+                                    <messages>
+                                        <message>WARN: {$epub}: EpubCheck is not available. Are you trying to run epubcheck through XProc from outside of the DAISY Pipeline 2 framework?</message>
+                                    </messages>
+                                </repInfo>
+                            </jhove>
+                        </p:inline>
+                    </p:input>
+                    <p:input port="source">
+                        <p:inline>
+                            <irrelevant/>
+                        </p:inline>
+                    </p:input>
+                    <p:input port="parameters">
+                        <p:pipe step="vars" port="result"/>
+                    </p:input>
+                </p:template>
+            </p:otherwise>
+        </p:choose>
     </p:declare-step>
 
 </p:library>
