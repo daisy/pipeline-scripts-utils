@@ -2,6 +2,7 @@ package org.daisy.pipeline.epub;
 
 import java.io.File;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import net.sf.saxon.s9api.QName;
@@ -29,9 +30,9 @@ import com.adobe.epubcheck.overlay.OverlayCheckerFactory;
 import com.adobe.epubcheck.util.*;
 
 public class EpubCheckProvider implements XProcStepProvider {
-	
+
 	private static HashMap<OPSType, String> modeMimeTypeMap;
-	
+
 	static {
 		HashMap<OPSType, String> map = new HashMap<OPSType, String>();
 
@@ -43,10 +44,10 @@ public class EpubCheckProvider implements XProcStepProvider {
 
 		map.put(new OPSType("mo", EPUBVersion.VERSION_3), "application/smil+xml");
 		map.put(new OPSType("nav", EPUBVersion.VERSION_3), "nav");
-		
+
 		modeMimeTypeMap = map;
 	}
-	
+
 	private static HashMap<OPSType, DocumentValidatorFactory> documentValidatorFactoryMap;
 
 	static {
@@ -65,7 +66,7 @@ public class EpubCheckProvider implements XProcStepProvider {
 
 		map.put(new OPSType("mo", EPUBVersion.VERSION_3), OverlayCheckerFactory.getInstance());
 		map.put(new OPSType("nav", EPUBVersion.VERSION_3), NavCheckerFactory.getInstance());
-		
+
 		documentValidatorFactoryMap = map;
 	}
 
@@ -98,6 +99,8 @@ public class EpubCheckProvider implements XProcStepProvider {
 		@Override
 		public void run() throws SaxonApiException {
 			super.run();
+
+			Archive epub = null;
 			try {
 
 				URI epubURI = new URI(getOption(_epubFile).getString());
@@ -105,54 +108,65 @@ public class EpubCheckProvider implements XProcStepProvider {
 				String path = epubFile.getCanonicalPath();
 
 				String epubVersionString = getOption(_epubVersion).getString();
-				
+
 				if (!("3".equals(epubVersionString) || "2".equals(epubVersionString))) {
 					throw new InvalidVersionException("'"+_epubVersion.getLocalName()+"' should be either '2' or '3'");
 				}
-				
+
 				EPUBVersion epubVersion = EPUBVersion.VERSION_2.equals(epubVersionString) ? EPUBVersion.VERSION_2 : EPUBVersion.VERSION_3;
-				
+
 				String mode = getOption(_mode).getString();
 				if ("epub".equals(mode))
 					mode = null;
 
 				File fileOut = File.createTempFile("epubcheck", null);
 				Report xmlReport = new XmlReportImpl(fileOut, epubFile.getName(), EpubCheck.version());
-				
-				if (mode != null)
-                    xmlReport.info(null, FeatureEnum.EXEC_MODE, String.format(Messages.SINGLE_FILE, mode, epubVersion.toString()));
-				
+
 				String toolDate = EpubCheck.buildDate();
 				if (toolDate != null && !toolDate.startsWith("$"))
 					xmlReport.info(null, FeatureEnum.TOOL_DATE, toolDate);
 
-				GenericResourceProvider resourceProvider;
-				
-				if (path.startsWith("http://") || path.startsWith("https://"))
-					resourceProvider = new URLResourceProvider(path);
-				else
-					resourceProvider = new FileResourceProvider(path);
+				if (mode != null) {
+					xmlReport.info(null, FeatureEnum.EXEC_MODE, String.format(Messages.SINGLE_FILE, mode, epubVersion.toString()));
 
-				OPSType opsType = new OPSType(mode, epubVersion);
+					if ("expanded".equals(mode) || "exp".equals(mode)) {
+						epub = new Archive(path, false);
+						epub.createArchive();
 
-				DocumentValidatorFactory factory = (DocumentValidatorFactory) documentValidatorFactoryMap.get(opsType);
+						EpubCheck check = new EpubCheck(epub.getEpubFile(), xmlReport, epubVersion);
+						check.validate();
+					}
 
-				if (factory == null) {
-					xmlReport.exception(
-							path,
-							new RuntimeException(String.format(Messages.MODE_VERSION_NOT_SUPPORTED, mode, epubVersion))
-					);
-
-					throw new RuntimeException(String.format(
-							Messages.MODE_VERSION_NOT_SUPPORTED, mode, epubVersion));
 				}
 
-				DocumentValidator check = factory.newInstance(xmlReport, path,
-						resourceProvider, (String) modeMimeTypeMap.get(opsType),
-						epubVersion);
-				
-				check.validate();
-				
+				if (epub == null) {
+					GenericResourceProvider resourceProvider;
+
+					if (path.startsWith("http://") || path.startsWith("https://"))
+						resourceProvider = new URLResourceProvider(path);
+					else
+						resourceProvider = new FileResourceProvider(path);
+
+					OPSType opsType = new OPSType(mode, epubVersion);
+
+					DocumentValidatorFactory factory = (DocumentValidatorFactory) documentValidatorFactoryMap.get(opsType);
+
+					if (factory == null) {
+						xmlReport.exception(
+								path,
+								new RuntimeException(String.format(Messages.MODE_VERSION_NOT_SUPPORTED, mode, epubVersion))
+								);
+
+						throw new RuntimeException(String.format(
+								Messages.MODE_VERSION_NOT_SUPPORTED, mode, epubVersion));
+					}
+
+					DocumentValidator check = factory.newInstance(xmlReport, path,
+							resourceProvider, (String) modeMimeTypeMap.get(opsType),
+							epubVersion);
+					check.validate();
+				}
+
 				if (((XmlReportImpl) xmlReport).generate()) {
 					XdmNode reportXml = runtime.getProcessor().newDocumentBuilder().build(fileOut);
 					fileOut.delete();
@@ -164,6 +178,11 @@ public class EpubCheckProvider implements XProcStepProvider {
 
 			catch (Exception e) {
 				throw new XProcException(step.getNode(), e);
+			}
+
+			finally {
+				if (epub != null)
+					epub.deleteEpubFile();
 			}
 		}
 	}
