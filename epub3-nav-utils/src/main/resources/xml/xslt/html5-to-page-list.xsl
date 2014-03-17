@@ -33,7 +33,7 @@
                 </xsl:when>
                 <xsl:when test="@id and normalize-space()=''">
                     <xsl:message select="concat('WARNING page break with ID ',@id,' has no value')"/>
-                    <xsl:value-of select="count(preceding::*[@epub:type='pagebreak'])+1"/>
+                    <xsl:value-of select="'-'"/>
                 </xsl:when>
                 <xsl:otherwise>
                     <xsl:apply-templates/>
