@@ -54,7 +54,7 @@
                 </div>
             </body>
         </x:context>
-        <x:expect label="the page value is computed from the count of page breaks" test="string((//h:a)[1])='1' and string((//h:a)[2])='2'"/>
+        <x:expect label="the page is empty and will be represented in the navdoc using a hyphen" test="string((//h:a)[1])='-' and string((//h:a)[2])='-'"/>
     </x:scenario>
     <x:scenario label="when the document has several page breaks">
         <x:context>
