@@ -10,6 +10,7 @@
 
     <xsl:template match="/*">
         <smil version="3.0">
+            <xsl:copy-of select="*[1]/@original-href"/>
             <body>
                 <xsl:apply-templates select="*[1]"/>
             </body>
