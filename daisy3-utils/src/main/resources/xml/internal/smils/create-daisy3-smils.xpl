@@ -79,7 +79,7 @@
     <p:import href="http://www.daisy.org/pipeline/modules/fileset-utils/library.xpl"/>
 
     <!-- They cannot hold a smilref attribute or they can contain levels (which would make them wrongly dispatched over multiple smils) -->
-    <p:variable name="no-smilref" select="' level level1 level2 level3 level4 level5 level6 dtbook frontmatter bodymatter rearmatter br head title meta style book bdo hr '"/>
+    <p:variable name="no-smilref" select="' level level1 level2 level3 level4 level5 level6 dtbook frontmatter bodymatter rearmatter br head title meta style book bdo hr w '"/>
 
     <p:xslt name="add-ids">
       <p:input port="source">
