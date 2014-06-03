@@ -455,7 +455,7 @@
     </xsl:template>
 
     <!--====== Element 'meta' ======-->
-    <xsl:template match="meta/@http-equiv|meta/@content">
+    <xsl:template match="meta/@http-equiv">
         <xsl:copy/>
     </xsl:template>
 
