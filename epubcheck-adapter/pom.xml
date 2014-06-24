@@ -16,34 +16,12 @@
 
   <name>DAISY Pipeline 2 module :: EpubCheck Adapter</name>
 
-  <!--<repositories>
-      <repository>
-          <id>central</id>
-          <name>Maven Central</name>
-          <url>http://repo.maven.apache.org/maven2/</url>
-      </repository>
-  </repositories>-->
-
-  <!--<pluginRepositories>
-      <pluginRepository>
-          <id>sonatype-nexus-snapshots</id>
-          <name>oss.sonatype.org github Release Repository Snapshot Repository</name>
-          <releases>
-              <enabled>false</enabled>
-          </releases>
-          <snapshots>
-              <enabled>true</enabled>
-          </snapshots>
-          <url>http://oss.sonatype.org/content/repositories/snapshots/</url>
-      </pluginRepository>
-  </pluginRepositories>-->
-
   <dependencyManagement>
     <dependencies>
       <dependency>
         <groupId>org.daisy.pipeline</groupId>
         <artifactId>framework-bom</artifactId>
-        <version>1.8</version>
+        <version>1.8.1-SNAPSHOT</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -61,8 +39,24 @@
     <dependency>
   	  <groupId>org.idpf</groupId>
   	  <artifactId>epubcheck</artifactId>
-  	  <version>3.0.1</version>
+      <version>3.0.1</version>
   	</dependency>
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>guava</artifactId>
+      <version>13.0.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-compress</artifactId>
+      <version>1.4.1</version>
+      <exclusions>
+        <exclusion>
+          <groupId>org.tukaani</groupId>
+          <artifactId>xz</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
   </dependencies>
 
   <build>
@@ -74,7 +68,7 @@
         <configuration>
           <instructions>
             <Import-Package>org.daisy.pipeline.script,*</Import-Package>
-            <Service-Component>OSGI-INF/epubcheck.xml</Service-Component>
+            <Service-Component>OSGI-INF/epubcheck.xml,OSGI-INF/column-number.xml,OSGI-INF/line-number.xml,OSGI-INF/system-id.xml</Service-Component>
           </instructions>
         </configuration>
       </plugin>

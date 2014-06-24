@@ -2,13 +2,11 @@ package org.daisy.pipeline.epub;
 
 import java.io.File;
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import net.sf.saxon.s9api.QName;
 import net.sf.saxon.s9api.SaxonApiException;
 import net.sf.saxon.s9api.XdmNode;
-
 import org.daisy.common.xproc.calabash.XProcStepProvider;
 
 import com.xmlcalabash.core.XProcException;
@@ -69,7 +67,7 @@ public class EpubCheckProvider implements XProcStepProvider {
 
 		documentValidatorFactoryMap = map;
 	}
-
+	
 	public XProcStep newStep(XProcRuntime runtime, XAtomicStep step) {
 		return new EpubCheckStep(runtime, step);
 	}
