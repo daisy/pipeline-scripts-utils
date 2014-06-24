@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<p:declare-step name="main" type="pxi:create-mediaoverlays" xmlns:p="http://www.w3.org/ns/xproc"
+<p:declare-step name="main" type="px:create-mediaoverlays" xmlns:p="http://www.w3.org/ns/xproc"
     xmlns:d="http://www.daisy.org/ns/pipeline/data"
     xmlns:px="http://www.daisy.org/ns/pipeline/xproc"
     version="1.0">
