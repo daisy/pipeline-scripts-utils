@@ -29,7 +29,7 @@
     <!-- <module>epub3-nav-utils</module> -->
     <!-- <module>epub3-ocf-utils</module> -->
     <!-- <module>epub3-pub-utils</module> -->
-    <!-- <module>epubcheck-adapter</module> -->
+    <module>epubcheck-adapter</module>
     <!-- <module>html-utils</module> -->
     <!-- <module>mediaoverlay-utils</module> -->
     <!-- <module>odt-utils</module> -->
@@ -87,7 +87,7 @@
       <dependency>
         <groupId>org.daisy.pipeline.modules</groupId>
         <artifactId>epubcheck-adapter</artifactId>
-        <version>1.0.0</version>
+        <version>1.0.1-SNAPSHOT</version>
       </dependency>
       <dependency>
         <groupId>org.daisy.pipeline.modules</groupId>

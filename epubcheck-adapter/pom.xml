@@ -16,28 +16,6 @@
 
   <name>DAISY Pipeline 2 module :: EpubCheck Adapter</name>
 
-  <!--<repositories>
-      <repository>
-          <id>central</id>
-          <name>Maven Central</name>
-          <url>http://repo.maven.apache.org/maven2/</url>
-      </repository>
-  </repositories>-->
-
-  <!--<pluginRepositories>
-      <pluginRepository>
-          <id>sonatype-nexus-snapshots</id>
-          <name>oss.sonatype.org github Release Repository Snapshot Repository</name>
-          <releases>
-              <enabled>false</enabled>
-          </releases>
-          <snapshots>
-              <enabled>true</enabled>
-          </snapshots>
-          <url>http://oss.sonatype.org/content/repositories/snapshots/</url>
-      </pluginRepository>
-  </pluginRepositories>-->
-
   <dependencyManagement>
     <dependencies>
       <dependency>
@@ -61,7 +39,7 @@
     <dependency>
   	  <groupId>org.idpf</groupId>
   	  <artifactId>epubcheck</artifactId>
-  	  <version>3.0.1</version>
+      <version>4.0.1</version>
   	</dependency>
   </dependencies>
 
@@ -74,7 +52,7 @@
         <configuration>
           <instructions>
             <Import-Package>org.daisy.pipeline.script,*</Import-Package>
-            <Service-Component>OSGI-INF/epubcheck.xml</Service-Component>
+            <Service-Component>OSGI-INF/epubcheck.xml,OSGI-INF/column-number.xml,OSGI-INF/line-number.xml,OSGI-INF/system-id.xml</Service-Component>
           </instructions>
         </configuration>
       </plugin>
