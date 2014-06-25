@@ -63,7 +63,7 @@ public class SystemIdFunction extends ExtensionFunctionDefinition {
 							((NodeInfo) context.getContextItem()).getSystemId());
 				}
 				throw new XPathException(
-						"Unexpected XPath context for saxon:line-number");
+						"Unexpected XPath context for saxon:system-id");
 			}
 		};
 	}
