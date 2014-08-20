@@ -19,6 +19,9 @@ import com.xmlcalabash.runtime.XAtomicStep;
 import com.adobe.epubcheck.api.EpubCheck;
 import com.adobe.epubcheck.api.EpubCheckFactory;
 import com.adobe.epubcheck.api.Report;
+import com.adobe.epubcheck.messages.Message;
+import com.adobe.epubcheck.messages.MessageLocation;
+import com.adobe.epubcheck.messages.Severity;
 import com.adobe.epubcheck.nav.NavCheckerFactory;
 import com.adobe.epubcheck.opf.DocumentValidator;
 import com.adobe.epubcheck.opf.DocumentValidatorFactory;
@@ -125,13 +128,13 @@ public class EpubCheckProvider implements XProcStepProvider {
 					xmlReport.info(null, FeatureEnum.TOOL_DATE, toolDate);
 
 				if (mode != null) {
-					xmlReport.info(null, FeatureEnum.EXEC_MODE, String.format(Messages.SINGLE_FILE, mode, epubVersion.toString()));
+					xmlReport.info(null, FeatureEnum.EXEC_MODE, String.format(Messages.get("single_file"), mode, epubVersion.toString()));
 
 					if ("expanded".equals(mode) || "exp".equals(mode)) {
 						epub = new Archive(path, false);
 						epub.createArchive();
 
-						EpubCheck check = new EpubCheck(epub.getEpubFile(), xmlReport, epubVersion);
+						EpubCheck check = new EpubCheck(epub.getEpubFile(), xmlReport);
 						check.validate();
 					}
 
@@ -150,13 +153,9 @@ public class EpubCheckProvider implements XProcStepProvider {
 					DocumentValidatorFactory factory = (DocumentValidatorFactory) documentValidatorFactoryMap.get(opsType);
 
 					if (factory == null) {
-						xmlReport.exception(
-								path,
-								new RuntimeException(String.format(Messages.MODE_VERSION_NOT_SUPPORTED, mode, epubVersion))
-								);
+						xmlReport.message(new Message(null, Severity.FATAL, Messages.get("mode_version_not_supported", mode, epubVersion), null), new MessageLocation(PathUtil.removeWorkingDirectory(path), 0, 0), mode, epubVersion);
 
-						throw new RuntimeException(String.format(
-								Messages.MODE_VERSION_NOT_SUPPORTED, mode, epubVersion));
+						throw new RuntimeException(Messages.get("mode_version_not_supported", mode, epubVersion));
 					}
 
 					DocumentValidator check = factory.newInstance(xmlReport, path,
@@ -164,8 +163,8 @@ public class EpubCheckProvider implements XProcStepProvider {
 							epubVersion);
 					check.validate();
 				}
-
-				if (((XmlReportImpl) xmlReport).generate()) {
+				
+				if (xmlReport.generate() == 0) {
 					XdmNode reportXml = runtime.getProcessor().newDocumentBuilder().build(fileOut);
 					fileOut.delete();
 					report.write(reportXml);
