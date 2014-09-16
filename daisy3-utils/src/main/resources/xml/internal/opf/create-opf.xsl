@@ -4,7 +4,7 @@
 		xmlns:pf="http://www.daisy.org/ns/pipeline/functions"
 		xmlns:xs="http://www.w3.org/2001/XMLSchema"
 		xmlns="http://openebook.org/namespaces/oeb-package/1.0/"
-		exclude-result-prefixes="#all" version="2.0">
+		exclude-result-prefixes="xsl d pf xs" version="2.0">
 
   <xsl:import href="http://www.daisy.org/pipeline/modules/file-utils/uri-functions.xsl"/>
 
@@ -24,7 +24,7 @@
 
     <package unique-identifier="uid">
       <metadata>
-	<dc-metadata xmlns:dc="http://purl.org/dc/elements/1.1/">
+	<dc-metadata xmlns:oebpackage="http://openebook.org/namespaces/oeb-package/1.0/" xmlns:dc="http://purl.org/dc/elements/1.1/">
 	  <dc:Format>ANSI/NISO Z39.86-2005</dc:Format>
 	  <dc:Language><xsl:value-of select="$lang"/></dc:Language>
 	  <dc:Date><xsl:value-of select="substring-before(xs:string(current-date()), '+')"/></dc:Date>
