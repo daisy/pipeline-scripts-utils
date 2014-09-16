@@ -3,6 +3,7 @@
   xpath-default-namespace="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops"
   xmlns:f="http://www.daisy.org/ns/pipeline/internal-functions"
   xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+  xmlns:tts="http://www.daisy.org/ns/pipeline/tts"
   exclude-result-prefixes="#all" version="2.0">
 
   <xsl:output method="xhtml" indent="yes"/>
@@ -37,7 +38,7 @@
           <xsl:copy-of select="$doc/html/((@* except @xml:base) | namespace::*)"/>
           <xsl:apply-templates select="$doc/html/head"/>
           <body>
-            <xsl:copy-of select="/*/@*"/>
+            <xsl:copy-of select="$doc/html/body/@tts:*|/*/@*"/>
             <xsl:apply-templates select="/*/node()"/>
           </body>
         </html>
@@ -53,7 +54,7 @@
       <xsl:message>Unable to resolve link to '<xsl:value-of select="."/>'</xsl:message>
     </xsl:if>
     <xsl:attribute name="href"
-      select="if (empty($refchunk) or / = $refchunk) then . 
+      select="if (empty($refchunk) or / = $refchunk) then .
               else concat(f:chunk-name($refchunk),.)"
     />
   </xsl:template>

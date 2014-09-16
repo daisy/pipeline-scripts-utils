@@ -23,8 +23,8 @@
     <p:for-each name="tocs">
         <p:output port="result" sequence="true"/>
         <p:variable name="base-uri" select="p:base-uri(/*)"/>
-        <p:variable name="base-ref" select="if (starts-with($base-uri,$base-dir)) 
-                    then substring-after($base-uri,$base-dir) 
+        <p:variable name="base-ref" select="if (starts-with($base-uri,$base-dir))
+                    then substring-after($base-uri,$base-dir)
                     else $base-uri"/>
         <p:xslt>
             <p:input port="stylesheet">
