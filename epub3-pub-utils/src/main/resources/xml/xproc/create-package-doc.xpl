@@ -417,11 +417,15 @@
         </p:group>
         <p:group name="content-docs-resources">
             <p:output port="result"/>
-            <px:fileset-filter media-types="application/xhtml+xml">
+            <px:fileset-diff>
                 <p:input port="source">
                     <p:pipe port="publication-resources" step="main"/>
                 </p:input>
-            </px:fileset-filter>
+                <p:input port="secondary">
+                    <p:pipe port="result" step="spine-filesets-with-mediatypes"/>
+                </p:input>
+            </px:fileset-diff>
+            <px:fileset-filter media-types="application/xhtml+xml"/>
             <p:add-attribute match="/d:fileset/d:file" attribute-name="linear" attribute-value="no"/>
         </p:group>    
         <px:fileset-join>
