@@ -39,7 +39,7 @@
     <dependency>
   	  <groupId>org.idpf</groupId>
   	  <artifactId>epubcheck</artifactId>
-      <version>4.0.0-alpha11</version>
+      <version>4.0.0-alpha12</version>
   	</dependency>
     <dependency>
       <groupId>com.google.guava</groupId>
