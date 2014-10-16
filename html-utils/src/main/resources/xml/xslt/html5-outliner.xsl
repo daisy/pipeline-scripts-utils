@@ -3,6 +3,7 @@
     xmlns="http://www.w3.org/1999/xhtml" xpath-default-namespace="http://www.w3.org/1999/xhtml"
     xmlns:f="http://www.daisy.org/ns/pipeline/internal-functions"
     xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:tts="http://www.daisy.org/ns/pipeline/tts"
     exclude-result-prefixes="#all">
 
     <xsl:output method="xml" version="1.0" encoding="UTF-8" indent="yes" omit-xml-declaration="no"/>
@@ -34,6 +35,7 @@
                         <xsl:attribute name="data-generated" select="'true'"/>
                     </xsl:if>
                     <a href="#{$id}">
+		        <xsl:copy-of select="$heading/ancestor-or-self::*/@tts:*"/>
                         <xsl:copy-of select="$heading-content"/>
                     </a>
                 </li>
@@ -50,6 +52,7 @@
                             <xsl:attribute name="data-generated" select="'true'"/>
                         </xsl:if>
                         <a href="#{$id}">
+			    <xsl:copy-of select="$heading/ancestor-or-self::*/@tts:*"/>
                             <xsl:copy-of select="$heading-content"/>
                         </a>
                         <ol>
@@ -122,7 +125,9 @@
         </xsl:copy>
     </xsl:template>
     <xsl:template match="h1|h2|h3|h4|h5|h6|hgroup" mode="filtering">
-        <xsl:copy-of select="."/>
+      <xsl:copy>
+	<xsl:copy-of select="@*|ancestor-or-self::*/@tts:*|node()"/>
+      </xsl:copy>
     </xsl:template>
     <xsl:template match="blockquote|details|fieldset|figure|td" mode="filtering"/>
     <xsl:template match="*" mode="filtering">
@@ -179,7 +184,7 @@
             </xsl:otherwise>
         </xsl:choose>
     </xsl:function>
-    
+
     <xsl:template match="a" mode="heading-content">
         <span>
             <xsl:copy-of select="@class|@dir|@lang|@title"/>
@@ -191,5 +196,5 @@
             <xsl:apply-templates select="node() | @*" mode="heading-content"/>
         </xsl:copy>
     </xsl:template>
-    
+
 </xsl:stylesheet>

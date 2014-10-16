@@ -423,7 +423,7 @@
                 </p:input>
             </px:fileset-filter>
             <p:add-attribute match="/d:fileset/d:file" attribute-name="linear" attribute-value="no"/>
-        </p:group>    
+        </p:group>
         <px:fileset-join>
             <p:input port="source">
                 <p:pipe port="result" step="content-docs-primary"/>
