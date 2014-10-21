@@ -16,8 +16,13 @@
             <p:pipe port="source" step="main"/>
         </p:input>
     </p:wrap-sequence>
-    <px:i18n-translate name="toc-string" string="Table of contents">
-        <p:with-option name="language" select="( /*/html:html/@lang , /*/html:html/@xml:lang , /*/html:html/html:head/html:meta[matches(lower-case(@name),'^(.*[:\.])?language$')]/@content , 'en' )[1]"/>
+
+    <p:group>
+      <p:output port="result"/>
+      <p:variable name="content-lang" select="( /*/html:html/@lang , /*/html:html/@xml:lang , /*/html:html/html:head/html:meta[matches(lower-case(@name),'^(.*[:\.])?language$')]/@content , 'en' )[1]"/>
+
+      <px:i18n-translate name="toc-string" string="Table of contents">
+        <p:with-option name="language" select="$content-lang"/>
         <p:input port="maps">
             <p:document href="../i18n.xml"/>
         </p:input>
@@ -59,17 +64,15 @@
 
     <!-- add xml:lang and lang attributes -->
     <p:choose>
-        <p:xpath-context>
-            <p:pipe port="result" step="toc-string"/>
-        </p:xpath-context>
-        <p:when test="$language or /*/@xml:lang">
+        <p:when test="$language or $content-lang">
+	    <p:variable name="lang-attr" select="if ($language) then $language else $content-lang"/>
             <p:add-attribute match="/*" attribute-name="xml:lang">
-                <p:with-option name="attribute-value" select="if ($language) then $language else /*/@xml:lang">
+                <p:with-option name="attribute-value" select="$lang-attr">
                     <p:pipe port="result" step="toc-string"/>
                 </p:with-option>
             </p:add-attribute>
             <p:add-attribute match="/*" attribute-name="lang">
-                <p:with-option name="attribute-value" select="if ($language) then $language else /*/@xml:lang">
+                <p:with-option name="attribute-value" select="$lang-attr">
                     <p:pipe port="result" step="toc-string"/>
                 </p:with-option>
             </p:add-attribute>
@@ -91,5 +94,6 @@
             <p:pipe step="main" port="source"/>
         </p:input>
     </p:insert>
+    </p:group>
 
 </p:declare-step>
