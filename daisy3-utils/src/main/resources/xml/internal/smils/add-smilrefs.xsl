@@ -7,6 +7,12 @@
 
   <xsl:import href="http://www.daisy.org/pipeline/modules/file-utils/uri-functions.xsl"/>
 
+  <!-- This script adds @smilref attributes to the input document, but
+       not all the nodes and attributes are copied, because the output
+       document is used only as a lightweight structure. The script
+       copy-smilref.xsl can be called to get the full original
+       document with the @smilrefs. -->
+
   <xsl:param name="no-smilref"/>
   <xsl:param name="mo-dir"/>
   <xsl:param name="output-dir"/>

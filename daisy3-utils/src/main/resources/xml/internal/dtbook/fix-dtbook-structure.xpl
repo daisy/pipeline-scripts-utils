@@ -5,14 +5,13 @@
 
     <p:input port="source" primary="true"/>
     <p:output port="result" primary="true"/>
+    <p:option name="mathml-formulae-img" select="''"/>
 
     <p:xslt>
       <p:input port="stylesheet">
 	<p:document href="fix-dtbook-structure.xsl"/>
       </p:input>
-      <p:input port="parameters">
-	<p:empty/>
-      </p:input>
+      <p:with-param name="mathml-formulae-img" select="$mathml-formulae-img"/>
     </p:xslt>
 
 </p:declare-step>

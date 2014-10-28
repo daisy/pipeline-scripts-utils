@@ -74,6 +74,18 @@
 	      </resource>
 	    </nodeSet>
 	  </scope>
+	  <scope nsuri="http://www.w3.org/2001/SMIL20/">
+	    <nodeSet id="math-seq-set" select="//seq[@class='math']">
+	      <resource xml:lang="en">
+		<text>mathematical formula</text>
+	      </resource>
+	    </nodeSet>
+	    <nodeSet id="math-par-set" select="//par[@class='math']">
+	      <resource xml:lang="en">
+		<text>mathematical formula</text>
+	      </resource>
+	    </nodeSet>
+	  </scope>
 	</resources>
       </p:inline>
     </p:input>
