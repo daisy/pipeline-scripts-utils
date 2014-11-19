@@ -64,11 +64,12 @@
 	<meta content="DAISY Pipeline 2" name="dtb:generator"/>
 	<meta name="dtb:uid" content="{$uid}"/>
 	<meta name="dtb:depth"
-	      content="{max(//*[key('headings', generate-id())]/
-		       count(ancestor-or-self::*[key('headings', generate-id())]))}"/>
-	<meta name="dtb:totalPageCount" content="{count($pages)}"/>
-	<xsl:variable name="total-pages" select="max($pages[not(@page) or @page='normal']/text())"/>
-	<meta name="dtb:maxPageNumber" content="{if (not($total-pages)) then '0' else $total-pages}"/>
+	      content="{concat('0', max(//*[key('headings', generate-id())]/
+		       count(ancestor-or-self::*[key('headings', generate-id())])))}"/>
+
+	<xsl:variable name="total-pages" select="count($pages)"/>
+	<meta name="dtb:totalPageCount" content="{$total-pages}"/>
+	<meta name="dtb:maxPageNumber" content="{$total-pages}"/>
 	<smilCustomTest bookStruct="PAGE_NUMBER" defaultState="false" id="pagenum" override="visible"/>
 	<smilCustomTest bookStruct="NOTE" defaultState="false" id="note" override="visible"/>
 	<smilCustomTest bookStruct="NOTE_REFERENCE" defaultState="false" id="noteref" override="visible"/>
@@ -146,8 +147,7 @@
       <pageList>
 	<xsl:for-each select="$pages">
 	  <xsl:variable name="val" select="d:getText(.)"/>
-	  <pageTarget type="{if (@page) then @page else 'normal'}"
-		      value="{if ($val='') then string(count($pages)+position()) else $val}">
+	  <pageTarget type="{if (@page) then @page else 'normal'}" value="{position()}">
 	    <xsl:apply-templates select="."  mode="add-content">
 	      <xsl:with-param name="play-orders" select="$play-orders"/>
 	      <xsl:with-param name="text-container" select="."/>
