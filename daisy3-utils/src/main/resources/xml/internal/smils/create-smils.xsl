@@ -12,6 +12,7 @@
   <xsl:param name="content-dir"/>
   <xsl:param name="content-uri"/>
   <xsl:param name="uid"/>
+  <xsl:param name="audio-only"/>
 
   <xsl:function name="d:smil">
     <xsl:param name="smilref"/>
@@ -106,7 +107,9 @@
 
   <xsl:template name="add-audio">
     <xsl:variable name="clip" select="key('clips', @id, collection()[/d:audio-clips])"/>
-    <text src="{concat($content-doc-rel, '#', @id)}"/>
+    <xsl:if test="$audio-only='false'">
+      <text src="{concat($content-doc-rel, '#', @id)}"/>
+    </xsl:if>
     <xsl:if test="$clip">
       <audio src="{concat($audio-dir-rel, tokenize($clip/@src, '[/\\]')[last()])}">
 	<xsl:copy-of select="$clip/(@clipBegin|@clipEnd)"/>
@@ -124,9 +127,16 @@
   <xsl:template match="*" mode="write-custom"/>
 
   <xsl:template match="dtbook:noteref|dtbook:annoref" mode="add-link">
-    <a external="false" href="{tokenize(key('targets', substring-after(@idref, '#'))/@smilref, '[/\\]')[last()]}">
-      <xsl:call-template name="add-audio"/>
-    </a>
+    <xsl:choose>
+      <xsl:when test="$audio-only='true'">
+	<xsl:call-template name="add-audio"/>
+      </xsl:when>
+      <xsl:otherwise>
+	<a external="false" href="{tokenize(key('targets', substring-after(@idref, '#'))/@smilref, '[/\\]')[last()]}">
+	  <xsl:call-template name="add-audio"/>
+	</a>
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
 
   <xsl:template match="*" mode="add-link">

@@ -75,11 +75,20 @@
       </p:documentation>
     </p:option>
 
+    <p:option name="audio-only" required="false" select="'false'">
+      <p:documentation xmlns="http://www.w3.org/1999/xhtml">
+	<p>No reference to DTBook in SMIL files</p>
+      </p:documentation>
+    </p:option>
+
     <p:import href="http://www.daisy.org/pipeline/modules/common-utils/library.xpl"/>
     <p:import href="http://www.daisy.org/pipeline/modules/fileset-utils/library.xpl"/>
 
-    <!-- They cannot hold a smilref attribute or they can contain levels (which would make them wrongly dispatched over multiple smils) -->
-    <p:variable name="no-smilref" select="' level level1 level2 level3 level4 level5 level6 dtbook frontmatter bodymatter rearmatter br head title meta style book bdo hr w '"/>
+    <!-- They cannot hold a smilref attribute or they can contain
+         levels (which would make them wrongly dispatched over
+         multiple smils) -->
+    <p:variable name="no-smilref"
+		select="' level level1 level2 level3 level4 level5 level6 dtbook frontmatter bodymatter rearmatter br head title meta style book bdo hr w '"/>
 
     <p:delete match="@smilref"/>
 
@@ -102,13 +111,18 @@
     <px:message message="SMIL audio order generated"/>
     <p:sink/>
 
+    <p:load name="add-smilrefs-xsl">
+      <p:with-option name="href"
+      		     select="if ($audio-only='true') then 'add-smilrefs-audio-only.xsl' else 'add-smilrefs.xsl'"/>
+    </p:load>
+
     <p:xslt name="add-smilrefs">
       <p:input port="source">
 	<p:pipe port="result" step="audio-order"/>
 	<p:pipe port="audio-map" step="main"/>
       </p:input>
       <p:input port="stylesheet">
-	<p:document href="add-smilrefs.xsl"/>
+	<p:pipe port="result" step="add-smilrefs-xsl"/>
       </p:input>
       <p:with-param name="no-smilref" select="$no-smilref"/>
       <p:with-param name="mo-dir" select="$smil-dir"/>
@@ -145,6 +159,7 @@
       <p:with-param name="audio-dir" select="$audio-dir"/>
       <p:with-param name="content-uri" select="$daisy3-dtbook-uri"/>
       <p:with-param name="content-dir" select="$root-dir"/>
+      <p:with-param name="audio-only" select="$audio-only"/>
     </p:xslt>
     <px:message message="SMIL files generated."/><p:sink/>
 
@@ -175,6 +190,14 @@
 	  </p:with-option>
 	</p:add-attribute>
       </p:viewport>
+      <p:choose>
+	<p:when test="$audio-only = 'true'">
+	  <p:delete match="smil:text"/>
+	</p:when>
+	<p:otherwise>
+	  <p:identity/>
+	</p:otherwise>
+      </p:choose>
     </p:for-each>
 
     <p:for-each>

@@ -17,6 +17,7 @@
   <xsl:param name="total-time"/>
   <xsl:param name="lang"/>
   <xsl:param name="publisher"/>
+  <xsl:param name="audio-only"/>
 
   <xsl:template match="/">
     <xsl:variable name="has-audio" select="boolean(//d:file[contains(@media-type, 'audio')][1])"/>
@@ -34,12 +35,13 @@
 	</dc-metadata>
 	<x-metadata>
 	  <meta name="dtb:multimediaType"
-		content="{if ($has-audio) then 'audioFullText' else 'textPartAudio'}"/>
-	  <meta content="{$total-time}" name="dtb:totalTime"/>
-	  <meta content="{concat((if ($has-audio) then 'audio,' else ''),
-	  		         (if ($has-image) then 'image,' else ''),
-	  			 'text')}"
-	  	name="dtb:multimediaContent"/>
+		content="{if ($audio-only='true') then 'audioOnly' else
+			 (if ($has-audio) then 'audioFullText' else 'textNCX')}"/>
+	  <meta name="dtb:totalTime" content="{$total-time}"/>
+	  <meta name="dtb:multimediaContent"
+		content="{concat(
+			 if ($audio-only='true') then 'audio' else (if ($has-audio) then 'audio,text' else 'text'),
+			 if ($has-image) then ',image' else '')}"/>
 	</x-metadata>
       </metadata>
       <manifest>
