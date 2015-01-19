@@ -53,6 +53,8 @@
       </xsl:attribute>
       <xsl:choose>
 	<xsl:when test="key('clips', @id, collection()[/d:audio-clips]) or count(dt:w) > 0">
+	  <!-- note: if the clip contains a skippable structure, it won't pass the
+	       validation because every skippable structure must hold a @smilref -->
 	  <xsl:copy-of select="@*|node()"/> <!-- children are not allowed to hold a @smilref -->
 	</xsl:when>
 	<xsl:otherwise>
