@@ -54,7 +54,7 @@
             <p:pipe port="source" step="merge-dtbook"/>
         </p:input>
     </p:split-sequence>
-    <px:message message="Merging DTBook documents"/>
+    <px:message severity="DEBUG" message="Merging DTBook documents"/>
     <p:sink/>
 
     <p:for-each name="validate-input">
