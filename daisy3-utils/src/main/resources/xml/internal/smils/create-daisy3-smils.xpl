@@ -88,6 +88,7 @@
 	<p:document href="add-ids.xsl"/>
       </p:input>
       <p:with-param name="no-smilref" select="$no-smilref"/>
+      <p:with-param name="stop-recursion" select="' math '"/>
     </p:xslt>
     <px:message message="Smil-needed IDs generated"/>
 
@@ -147,10 +148,24 @@
       <p:with-param name="content-dir" select="$root-dir"/>
     </p:xslt>
     <px:message message="SMIL files generated."/><p:sink/>
+    <p:for-each name="all-smils">
+      <p:iteration-source>
+	<p:pipe port="secondary" step="create-smils"/>
+      </p:iteration-source>
+      <p:output port="result"/>
+      <p:xslt>
+	<p:input port="stylesheet">
+	  <p:document href="fill-end-attrs.xsl"/>
+	</p:input>
+	<p:input port="parameters">
+	  <p:empty/>
+	</p:input>
+      </p:xslt>
+    </p:for-each>
 
     <p:xslt name="compute-durations">
       <p:input port="source">
-	<p:pipe port="secondary" step="create-smils"/>
+	<p:pipe port="result" step="all-smils"/>
       </p:input>
       <p:input port="stylesheet">
 	<p:document href="compute-durations.xsl"/>
@@ -165,7 +180,7 @@
     <p:for-each name="smil-with-durations">
       <p:output port="result"/>
       <p:iteration-source>
-	<p:pipe port="secondary" step="create-smils"/>
+	<p:pipe port="result" step="all-smils"/>
       </p:iteration-source>
       <p:variable name="doc-uri" select="base-uri(/*)"/>
       <p:viewport match="smil:head/smil:meta[@name='dtb:totalElapsedTime']">
@@ -179,7 +194,7 @@
 
     <p:for-each>
       <p:iteration-source>
-	<p:pipe port="secondary" step="create-smils"/>
+	<p:pipe port="result" step="all-smils"/>
       </p:iteration-source>
       <p:output port="result" sequence="true"/>
       <p:variable name="mo-uri" select="base-uri(/*)"/>

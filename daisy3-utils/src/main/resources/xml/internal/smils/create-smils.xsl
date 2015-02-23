@@ -3,6 +3,7 @@
     xmlns:d="http://www.daisy.org/ns/pipeline/data"
     xmlns:dtbook="http://www.daisy.org/z3986/2005/dtbook/"
     xmlns:pf="http://www.daisy.org/ns/pipeline/functions"
+    xmlns:math="http://www.w3.org/1998/Math/MathML"
     xmlns="http://www.w3.org/2001/SMIL20/" exclude-result-prefixes="#all" version="2.0">
 
   <xsl:import href="http://www.daisy.org/pipeline/modules/file-utils/uri-functions.xsl"/>
@@ -87,6 +88,9 @@
     <xsl:choose>
       <xsl:when test="descendant::*[@smilref and d:smil(@smilref) = $smil-nr][1]">
 	<seq id="{$id-in-smil}" class="{local-name()}">
+	  <xsl:if test="self::math:*">
+	    <xsl:call-template name="escapable"/>
+	  </xsl:if>
 	  <xsl:apply-templates select="." mode="write-custom"/>
 	  <xsl:apply-templates mode="write-smil" select="*"/>
 	</seq>
@@ -100,13 +104,37 @@
     </xsl:choose>
   </xsl:template>
 
+  <xsl:template match="math:math[@smilref]" mode="write-smil" priority="3">
+    <xsl:variable name="id-in-smil" select="substring-after(@smilref, '#')"/>
+    <seq id="{$id-in-smil}" class="{local-name()}">
+      <xsl:call-template name="escapable"/>
+      <xsl:apply-templates select="." mode="write-custom"/>
+      <par id="{concat($id-in-smil, '-par')}" class="{local-name()}">
+	<xsl:apply-templates select="." mode="write-custom"/>
+	<xsl:apply-templates select="." mode="add-link"/>
+      </par>
+    </seq>
+  </xsl:template>
+
   <xsl:template match="*" mode="write-smil" priority="1">
     <xsl:apply-templates mode="write-smil" select="*"/>
   </xsl:template>
 
+  <xsl:template name="escapable">
+    <xsl:attribute name="end">
+      <xsl:value-of select="'DTBuserEscape;'"/>
+    </xsl:attribute>
+  </xsl:template>
+
   <xsl:template name="add-audio">
     <xsl:variable name="clip" select="key('clips', @id, collection()[/d:audio-clips])"/>
-    <text src="{concat($content-doc-rel, '#', @id)}"/>
+    <text src="{concat($content-doc-rel, '#', @id)}">
+      <xsl:if test="self::math:*">
+	<xsl:attribute name="type">
+	  <xsl:text>http://www.w3.org/1998/Math/MathML</xsl:text>
+	</xsl:attribute>
+      </xsl:if>
+    </text>
     <xsl:if test="$clip">
       <audio src="{concat($audio-dir-rel, tokenize($clip/@src, '[/\\]')[last()])}">
 	<xsl:copy-of select="$clip/(@clipBegin|@clipEnd)"/>

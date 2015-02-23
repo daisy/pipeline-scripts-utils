@@ -5,6 +5,7 @@
 		exclude-result-prefixes="#all" version="2.0">
 
   <xsl:param name="no-smilref"/>
+  <xsl:param name="stop-recursion" select="''"/>
 
   <xsl:template match="*[not(@id) and not(contains($no-smilref, concat(' ', local-name(), ' ')))]" priority="2">
     <xsl:copy>
@@ -12,6 +13,17 @@
 	<xsl:value-of select="concat('forsmil-', generate-id())"/>
       </xsl:attribute>
       <xsl:apply-templates select="@*|node()"/>
+    </xsl:copy>
+  </xsl:template>
+
+  <xsl:template match="*[contains($stop-recursion, concat(' ', local-name(), ' '))]" priority="3">
+    <xsl:copy>
+      <xsl:if test="not(@id) and not(contains($no-smilref, concat(' ', local-name(), ' ')))">
+	<xsl:attribute name="id">
+	  <xsl:value-of select="concat('forsmil-', generate-id())"/>
+	</xsl:attribute>
+      </xsl:if>
+      <xsl:copy-of select="@*|node()"/>
     </xsl:copy>
   </xsl:template>
 
