@@ -467,6 +467,114 @@
       </x:expect>
     </x:scenario>
 
+    <x:scenario label="audio only [simple]">
+      <x:call>
+	<x:option name="audio-only" select="'true'"/>
+  	<x:input port="content">
+  	  <x:document type="inline">
+	    <dtbook xmlns="http://www.daisy.org/z3986/2005/dtbook/">
+	      <level>
+		<span id="s1">text</span>
+		<noteref id="n1" idref="#n"/>
+	      </level>
+	      <level>
+		<note id="n"><span id="s1">text</span><span id="s2">text</span></note>
+	      </level>
+	    </dtbook>
+	  </x:document>
+  	</x:input>
+      </x:call>
+      <x:context label="context">
+  	<x:document type="port" port="updated-content"/>
+      </x:context>
+      <x:expect type="compare" label="result">
+	<x:document type="inline">
+	  <dtbook xmlns="http://www.daisy.org/z3986/2005/dtbook/">
+	    <level>
+              <span smilref="mo1.smil#ss1" id="s1">text</span>
+              <noteref id="n1" idref="#n"/>
+	    </level>
+	    <level>
+              <note smilref="mo1.smil#sn" id="n">
+		<span smilref="mo1.smil#ss1" id="s1">text</span>
+		<span smilref="mo1.smil#ss2" id="s2">text</span>
+              </note>
+	    </level>
+	  </dtbook>
+	</x:document>
+      </x:expect>
+    </x:scenario>
+
+    <x:scenario label="audio only: noteref in heading">
+      <x:call>
+    	<x:option name="audio-only" select="'true'"/>
+    	<x:input port="content">
+    	  <x:document type="inline">
+    	    <dtbook xmlns="http://www.daisy.org/z3986/2005/dtbook/">
+    	      <level>
+		<h1 id="header">
+		  <span id="s1">text</span>
+    		  <noteref id="n1" idref="#n"/>
+		</h1>
+    	      </level>
+    	      <level>
+    		<note id="n"><span id="s2">text</span></note>
+    	      </level>
+    	    </dtbook>
+    	  </x:document>
+    	</x:input>
+      </x:call>
+      <x:context label="context">
+    	<x:document type="port" port="updated-content"/>
+	<x:document type="port" port="smil.out"/>
+      </x:context>
+      <x:expect type="compare" label="result">
+    	<x:document type="inline">
+    	  <dtbook xmlns="http://www.daisy.org/z3986/2005/dtbook/">
+	    <level>
+              <h1 smilref="mo1.smil#sheader" id="header">
+		<span smilref="mo1.smil#ss1" id="s1">text</span>
+		<noteref id="n1" idref="#n"/>
+              </h1>
+	    </level>
+	    <level>
+              <note smilref="mo1.smil#sn" id="n">
+		<span smilref="mo1.smil#ss2" id="s2">text</span>
+              </note>
+	    </level>
+    	  </dtbook>
+	  <smil xmlns="http://www.w3.org/2001/SMIL20/">
+	    <head>
+              <meta content="uid" name="dtb:uid"/>
+              <meta content="0:00:00" name="dtb:totalElapsedTime"/>
+              <meta content="DAISY Pipeline 2" name="dtb:generator"/>
+              <customAttributes>
+		<customTest defaultState="false" id="pagenum" override="visible"/>
+		<customTest defaultState="false" id="note" override="visible"/>
+		<customTest defaultState="false" id="noteref" override="visible"/>
+		<customTest defaultState="false" id="annotation" override="visible"/>
+		<customTest defaultState="false" id="linenum" override="visible"/>
+		<customTest defaultState="false" id="sidebar" override="visible"/>
+		<customTest defaultState="false" id="prodnote" override="visible"/>
+              </customAttributes>
+	    </head>
+	    <body>
+              <seq id="sheader" class="h1">
+		<par id="ss1" class="span">
+                  <audio src=""/>
+		</par>
+		<seq id="sn" class="note" customTest="note">
+                  <par id="ss2" class="span">
+                    <audio src=""/>
+                  </par>
+		</seq>
+              </seq>
+	    </body>
+	  </smil>
+    	</x:document>
+      </x:expect>
+    </x:scenario>
+
 
     <!-- TODO: test notes without noterefs -->
 
