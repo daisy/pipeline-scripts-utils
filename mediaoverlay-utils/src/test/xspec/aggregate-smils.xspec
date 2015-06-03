@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec" xmlns:d="http://www.daisy.org/ns/pipeline/data" xmlns:smil="http://www.w3.org/ns/SMIL"
+    stylesheet="../../../src/main/resources/xml/aggregate-smils.xsl">
+
+    <x:param name="other-smil">
+        <smil xmlns="http://www.w3.org/ns/SMIL" xmlns:epub="http://www.idpf.org/2007/ops" version="3.0" xml:base="file:/tmp/file.smil">
+            <body>
+                <seq id="id1" epub:textref="file.xhtml#id1" epub:type="bodymatter chapter">
+                    <par id="id2" epub:type="fulltitle">
+                        <text src="file.xhtml#id2"/>
+                    </par>
+                    <par id="id4">
+                        <text src="file.xhtml#id4"/>
+                    </par>
+                    <par id="id5">
+                        <text src="file.xhtml#id5"/>
+                    </par>
+                    <par id="id6">
+                        <text src="file.xhtml#id6"/>
+                    </par>
+                    <par id="id7" epub:type="pagebreak">
+                        <text src="file.xhtml#id7"/>
+                    </par>
+                    <seq id="id8" epub:textref="file.xhtml#id8" epub:type="subchapter">
+                        <par id="id9" epub:type="title">
+                            <text src="file.xhtml#id9"/>
+                        </par>
+                        <par id="id11">
+                            <text src="file.xhtml#id11"/>
+                        </par>
+                    </seq>
+                    <par id="id12">
+                        <text src="file.xhtml#id12"/>
+                    </par>
+                </seq>
+            </body>
+        </smil>
+        <smil xmlns="http://www.w3.org/ns/SMIL" xmlns:epub="http://www.idpf.org/2007/ops" version="3.0" xml:base="file:/tmp/file.smil">
+            <body>
+                <par id="id7" epub:type="pagebreak">
+                    <text src="file.xhtml#id7"/>
+                </par>
+                <seq id="id8" epub:textref="file.xhtml#id8" epub:type="subchapter">
+                    <par id="id9" epub:type="title">
+                        <text src="file.xhtml#id9"/>
+                    </par>
+                    <par id="id11">
+                        <text src="file.xhtml#id11"/>
+                    </par>
+                </seq>
+                <par id="id12">
+                    <text src="file.xhtml#id12"/>
+                </par>
+                <seq id="id13" epub:textref="file.xhtml#something-else-dont-use-this-value" epub:type="figure">
+                    <par id="id14">
+                        <text src="file.xhtml#id14"/>
+                    </par>
+                    <par id="id17">
+                        <text src="file.xhtml#id17"/>
+                    </par>
+                </seq>
+                <par id="id18" epub:type="concluding-sentence">
+                    <text src="file.xhtml#id18"/>
+                </par>
+                <seq id="id20" epub:textref="file.xhtml#id20" epub:type="table">
+                    <seq id="id22" epub:textref="file.xhtml#id22" epub:type="table-row">
+                        <par id="id23" epub:type="table-cell">
+                            <text src="file.xhtml#id23"/>
+                        </par>
+                        <par id="id24" epub:type="table-cell">
+                            <text src="file.xhtml#id24"/>
+                        </par>
+                    </seq>
+                    <seq id="id26" epub:textref="file.xhtml#id26" epub:type="table-row">
+                        <par id="id27" epub:type="table-cell">
+                            <text src="file.xhtml#id27"/>
+                        </par>
+                        <par id="id28" epub:type="table-cell">
+                            <text src="file.xhtml#id28"/>
+                        </par>
+                    </seq>
+                    <seq id="id29" epub:textref="file.xhtml#id29" epub:type="table-row">
+                        <par id="id30" epub:type="table-cell">
+                            <text src="file.xhtml#id30"/>
+                        </par>
+                        <par id="id31" epub:type="pagebreak">
+                            <text src="file.xhtml#id31"/>
+                        </par>
+                        <seq id="id32" epub:textref="file.xhtml#id32" epub:type="table-cell">
+                            <par id="id33">
+                                <text src="file.xhtml#id33"/>
+                            </par>
+                            <par id="id35">
+                                <text src="file.xhtml#id35"/>
+                            </par>
+                        </seq>
+                    </seq>
+                </seq>
+                <seq id="id36" epub:textref="file.xhtml#id36" epub:type="list">
+                    <par id="id37" epub:type="list-item">
+                        <text src="file.xhtml#id37"/>
+                    </par>
+                    <par id="id38" epub:type="list-item">
+                        <text src="file.xhtml#id38"/>
+                    </par>
+                </seq>
+                <par id="id43">
+                    <text src="file.xhtml#id43"/>
+                </par>
+                <par id="id45">
+                    <text src="file.xhtml#id45"/>
+                </par>
+                <par id="id46">
+                    <text src="file.xhtml#id46"/>
+                </par>
+            </body>
+        </smil>
+    </x:param>
+
+    <x:scenario label="A set of SMIL files">
+        <x:context>
+            <smil xmlns="http://www.w3.org/ns/SMIL" xmlns:epub="http://www.idpf.org/2007/ops" version="3.0" xml:base="...">
+                <body>
+                    <seq id="id1">
+                        <par id="id4">
+                            <audio src="audio.mp3"/>
+                            <text src="file.xhtml#id4"/>
+                        </par>
+                        <par id="id7">
+                            <audio id="audio" src="audio.mp3" clipBegin="0" clipEnd="10"/>
+                            <text src="file.xhtml#id7"/>
+                        </par>
+                        <par id="id12">
+                            <text src="file.xhtml#id12"/>
+                            <audio src="audio.mp3" clipBegin="10"/>
+                        </par>
+                        <seq id="id13" epub:textref="file.xhtml#id13">
+                            <par id="id17">
+                                <audio src="audio.mp3"/>
+                                <text src="file.xhtml#id17"/>
+                            </par>
+                        </seq>
+                        <par id="id18" epub:type="concluding-sentence">
+                            <audio src="audio.mp3"/>
+                            <text src="file.xhtml#id18"/>
+                        </par>
+                        <seq id="id20" epub:textref="file.xhtml#id20" epub:type="table">
+                            <par id="id23" epub:type="table-cell">
+                                <text src="file.xhtml#id23"/>
+                                <audio src="audio.mp3"/>
+                            </par>
+                            <par id="id24" epub:type="table-cell">
+                                <text src="file.xhtml#id24"/>
+                                <audio src="audio.mp3"/>
+                            </par>
+                            <par id="id27" epub:type="table-cell">
+                                <audio src="audio.mp3"/>
+                                <text src="file.xhtml#id27"/>
+                            </par>
+                            <par id="id28" epub:type="table-cell">
+                                <audio src="audio.mp3"/>
+                                <text src="file.xhtml#id28"/>
+                            </par>
+                            <seq id="id29" epub:textref="file.xhtml#id29" epub:type="table-row">
+                                <par id="id30" epub:type="table-cell">
+                                    <audio src="audio.mp3"/>
+                                    <text src="file.xhtml#id30"/>
+                                </par>
+                                <par id="id31" epub:type="pagebreak">
+                                    <audio src="audio.mp3"/>
+                                    <text src="file.xhtml#id31"/>
+                                </par>
+                                <seq id="id32" epub:textref="file.xhtml#id32" epub:type="table-cell">
+                                    <par id="id33">
+                                        <audio src="audio.mp3"/>
+                                        <text src="file.xhtml#id33"/>
+                                    </par>
+                                    <par id="id35">
+                                        <audio src="audio.mp3"/>
+                                        <text src="file.xhtml#id35"/>
+                                    </par>
+                                </seq>
+                            </seq>
+                        </seq>
+                        <seq id="id36" epub:textref="file.xhtml#id36" epub:type="list">
+                            <par id="id37" epub:type="list-item">
+                                <audio src="audio.mp3"/>
+                                <text src="file.xhtml#id37"/>
+                            </par>
+                        </seq>
+                        <par id="id43">
+                            <audio src="audio.mp3"/>
+                            <text src="file.xhtml#id43"/>
+                        </par>
+                        <par id="id46">
+                            <audio src="audio.mp3"/>
+                            <text src="file.xhtml#id46"/>
+                        </par>
+                    </seq>
+                </body>
+            </smil>
+        </x:context>
+        <x:expect label="the SMIL should be aggregated appropriately">
+            <smil xmlns="http://www.w3.org/ns/SMIL" xmlns:epub="http://www.idpf.org/2007/ops" version="3.0" xml:base="...">
+                <body>
+                    <seq id="id1" epub:textref="file.xhtml#id1" epub:type="bodymatter chapter">
+                        <par id="id2" epub:type="fulltitle">
+                            <text src="file.xhtml#id2"/>
+                        </par>
+                        <par id="id4">
+                            <text src="file.xhtml#id4"/>
+                            <audio src="audio.mp3"/>
+                        </par>
+                        <par id="id5">
+                            <text src="file.xhtml#id5"/>
+                        </par>
+                        <par id="id6">
+                            <text src="file.xhtml#id6"/>
+                        </par>
+                        <par id="id7" epub:type="pagebreak">
+                            <text src="file.xhtml#id7"/>
+                            <audio id="audio" src="audio.mp3" clipBegin="0" clipEnd="10"/>
+                        </par>
+                        <seq id="id8" epub:textref="file.xhtml#id8" epub:type="subchapter">
+                            <par id="id9" epub:type="title">
+                                <text src="file.xhtml#id9"/>
+                            </par>
+                            <par id="id11">
+                                <text src="file.xhtml#id11"/>
+                            </par>
+                        </seq>
+                        <par id="id12">
+                            <text src="file.xhtml#id12"/>
+                            <audio src="audio.mp3"/>
+                        </par>
+                        <seq id="id13" epub:textref="file.xhtml#id13" epub:type="figure">
+                            <par id="id14">
+                                <text src="file.xhtml#id14"/>
+                            </par>
+                            <par id="id17">
+                                <text src="file.xhtml#id17"/>
+                                <audio src="audio.mp3"/>
+                            </par>
+                        </seq>
+                        <par id="id18" epub:type="concluding-sentence">
+                            <text src="file.xhtml#id18"/>
+                            <audio src="audio.mp3"/>
+                        </par>
+                        <seq id="id20" epub:textref="file.xhtml#id20" epub:type="table">
+                            <seq id="id22" epub:textref="file.xhtml#id22" epub:type="table-row">
+                                <par id="id23" epub:type="table-cell">
+                                    <text src="file.xhtml#id23"/>
+                                    <audio src="audio.mp3"/>
+                                </par>
+                                <par id="id24" epub:type="table-cell">
+                                    <text src="file.xhtml#id24"/>
+                                    <audio src="audio.mp3"/>
+                                </par>
+                            </seq>
+                            <seq id="id26" epub:textref="file.xhtml#id26" epub:type="table-row">
+                                <par id="id27" epub:type="table-cell">
+                                    <text src="file.xhtml#id27"/>
+                                    <audio src="audio.mp3"/>
+                                </par>
+                                <par id="id28" epub:type="table-cell">
+                                    <text src="file.xhtml#id28"/>
+                                    <audio src="audio.mp3"/>
+                                </par>
+                            </seq>
+                            <seq id="id29" epub:textref="file.xhtml#id29" epub:type="table-row">
+                                <par id="id30" epub:type="table-cell">
+                                    <text src="file.xhtml#id30"/>
+                                    <audio src="audio.mp3"/>
+                                </par>
+                                <par id="id31" epub:type="pagebreak">
+                                    <text src="file.xhtml#id31"/>
+                                    <audio src="audio.mp3"/>
+                                </par>
+                                <seq id="id32" epub:textref="file.xhtml#id32" epub:type="table-cell">
+                                    <par id="id33">
+                                        <text src="file.xhtml#id33"/>
+                                        <audio src="audio.mp3"/>
+                                    </par>
+                                    <par id="id35">
+                                        <text src="file.xhtml#id35"/>
+                                        <audio src="audio.mp3"/>
+                                    </par>
+                                </seq>
+                            </seq>
+                        </seq>
+                        <seq id="id36" epub:textref="file.xhtml#id36" epub:type="list">
+                            <par id="id37" epub:type="list-item">
+                                <text src="file.xhtml#id37"/>
+                                <audio src="audio.mp3"/>
+                            </par>
+                            <par id="id38" epub:type="list-item">
+                                <text src="file.xhtml#id38"/>
+                            </par>
+                        </seq>
+                        <par id="id43">
+                            <text src="file.xhtml#id43"/>
+                            <audio src="audio.mp3"/>
+                        </par>
+                        <par id="id45">
+                            <text src="file.xhtml#id45"/>
+                        </par>
+                        <par id="id46">
+                            <text src="file.xhtml#id46"/>
+                            <audio src="audio.mp3"/>
+                        </par>
+                    </seq>
+                </body>
+            </smil>
+        </x:expect>
+    </x:scenario>
+
+</x:description>

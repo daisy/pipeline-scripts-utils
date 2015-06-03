@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+    stylesheet="../../../src/main/resources/xml/html-to-smil.xsl">
+
+    <x:scenario label="A basic HTML file">
+        <x:context>
+            <html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops"
+                xml:base="file:/tmp/file.xhtml">
+                <head>
+                    <title>Title</title>
+                </head>
+                <body id="id1" epub:type="bodymatter chapter">
+                    <h1 id="id2" epub:type="fulltitle">Headline</h1>
+                    <section id="id3">
+                        <h2 id="id4">Headline</h2>
+                        <p id="id5">P</p>
+                        <p id="id6">P</p>
+                    </section>
+                    <div epub:type="pagebreak" title="1" id="id7"/>
+                    <section id="id8" epub:type="subchapter">
+                        <h2 id="id9" epub:type="title">Headline <small id="id10"
+                                epub:type="subtitle">subheadline</small></h2>
+                        <p id="id11">P</p>
+                    </section>
+                    <img id="id12" src="#" alt="alt text"/>
+                    <figure id="id13">
+                        <img id="id14" src="#" alt="alt text"/>
+                        <figcaption id="id15"><p id="id16"><span id="id17"
+                            >caption</span></p></figcaption>
+                    </figure>
+                    <p id="id18" epub:type="concluding-sentence">Text <em id="id19">emphasized</em>
+                        more text.</p>
+                    <table id="id20">
+                        <thead id="id21">
+                            <tr id="id22">
+                                <th id="id23">TH</th>
+                                <th id="id24">TH</th>
+                            </tr>
+                        </thead>
+                        <tbody id="id25">
+                            <tr id="id26">
+                                <td id="id27">TD<span>noid</span></td>
+                                <td id="id28"><span>noid</span></td>
+                            </tr>
+                            <tr id="id29">
+                                <td id="id30">TD<span epub:type="pagebreak" id="id31"/></td>
+                                <td id="id32">
+                                    <span id="id33">SPAN</span>
+                                    <p id="id34">
+                                        <span id="id35">SPAN</span>
+                                    </p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <ol id="id36">
+                        <li id="id37">LI</li>
+                        <li id="id38">LI</li>
+                    </ol>
+                    <div id="id39">
+                        <!-- empty or missing alt attributes on img -->
+                        <img id="id40" src="#" alt=""/>
+                        <img id="id41" src="#"/>
+                    </div>
+                    <p>Con<span id="id43">vo</span><em id="id44"><span id="id45"
+                            >lu</span></em>te<span id="id46">d</span>
+                        t<span><span>e</span></span>st</p>
+                </body>
+            </html>
+        </x:context>
+        <x:expect label="block level elements should be referenced as appropriate">
+            <smil xmlns="http://www.w3.org/ns/SMIL" xmlns:epub="http://www.idpf.org/2007/ops"
+                version="3.0" xml:base="...">
+                <body>
+                    <seq id="id1" epub:textref="file.xhtml#id1" epub:type="bodymatter chapter">
+                        <par id="id2" epub:type="fulltitle">
+                            <text src="file.xhtml#id2"/>
+                        </par>
+                        <par id="id4">
+                            <text src="file.xhtml#id4"/>
+                        </par>
+                        <par id="id5">
+                            <text src="file.xhtml#id5"/>
+                        </par>
+                        <par id="id6">
+                            <text src="file.xhtml#id6"/>
+                        </par>
+                        <par id="id7" epub:type="pagebreak">
+                            <text src="file.xhtml#id7"/>
+                        </par>
+                        <seq id="id8" epub:textref="file.xhtml#id8" epub:type="subchapter">
+                            <par id="id9" epub:type="title">
+                                <text src="file.xhtml#id9"/>
+                            </par>
+                            <par id="id11">
+                                <text src="file.xhtml#id11"/>
+                            </par>
+                        </seq>
+                        <par id="id12">
+                            <text src="file.xhtml#id12"/>
+                        </par>
+                        <seq id="id13" epub:textref="file.xhtml#id13" epub:type="figure">
+                            <par id="id14">
+                                <text src="file.xhtml#id14"/>
+                            </par>
+                            <par id="id17">
+                                <text src="file.xhtml#id17"/>
+                            </par>
+                        </seq>
+                        <par id="id18" epub:type="concluding-sentence">
+                            <text src="file.xhtml#id18"/>
+                        </par>
+                        <seq id="id20" epub:textref="file.xhtml#id20" epub:type="table">
+                            <seq id="id22" epub:textref="file.xhtml#id22" epub:type="table-row">
+                                <par id="id23" epub:type="table-cell">
+                                    <text src="file.xhtml#id23"/>
+                                </par>
+                                <par id="id24" epub:type="table-cell">
+                                    <text src="file.xhtml#id24"/>
+                                </par>
+                            </seq>
+                            <seq id="id26" epub:textref="file.xhtml#id26" epub:type="table-row">
+                                <par id="id27" epub:type="table-cell">
+                                    <text src="file.xhtml#id27"/>
+                                </par>
+                                <par id="id28" epub:type="table-cell">
+                                    <text src="file.xhtml#id28"/>
+                                </par>
+                            </seq>
+                            <seq id="id29" epub:textref="file.xhtml#id29" epub:type="table-row">
+                                <par id="id30" epub:type="table-cell">
+                                    <text src="file.xhtml#id30"/>
+                                </par>
+                                <par id="id31" epub:type="pagebreak">
+                                    <text src="file.xhtml#id31"/>
+                                </par>
+                                <seq id="id32" epub:textref="file.xhtml#id32" epub:type="table-cell">
+                                    <par id="id33">
+                                        <text src="file.xhtml#id33"/>
+                                    </par>
+                                    <par id="id35">
+                                        <text src="file.xhtml#id35"/>
+                                    </par>
+                                </seq>
+                            </seq>
+                        </seq>
+                        <seq id="id36" epub:textref="file.xhtml#id36" epub:type="list">
+                            <par id="id37" epub:type="list-item">
+                                <text src="file.xhtml#id37"/>
+                            </par>
+                            <par id="id38" epub:type="list-item">
+                                <text src="file.xhtml#id38"/>
+                            </par>
+                        </seq>
+                        <par id="id43">
+                            <text src="file.xhtml#id43"/>
+                        </par>
+                        <par id="id45">
+                            <text src="file.xhtml#id45"/>
+                        </par>
+                        <par id="id46">
+                            <text src="file.xhtml#id46"/>
+                        </par>
+                    </seq>
+                </body>
+            </smil>
+        </x:expect>
+    </x:scenario>
+
+</x:description>

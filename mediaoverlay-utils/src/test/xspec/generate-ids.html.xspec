@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec" stylesheet="../../../src/main/resources/xml/generate-ids.html.xsl">
+    
+    <x:param name="iteration-position" select="'1'"/>
+    
+    <x:scenario label="generate-ids.html">
+        <x:context>
+            <html xmlns="http://www.w3.org/1999/xhtml">
+                <head>
+                    <title>Test</title>
+                </head>
+                <body>
+                    <h1>Test</h1>
+                    <div>
+                        <p>Test</p>
+                        <p>Test</p>
+                    </div>
+                </body>
+            </html>
+        </x:context>
+        <x:expect label="generate ids for all elements in body">
+            <html xmlns="http://www.w3.org/1999/xhtml">
+                <head>
+                    <title>Test</title>
+                </head>
+                <body id="doc1">
+                    <h1 id="doc1_h11">Test</h1>
+                    <div id="doc1_div2">
+                        <p id="doc1_div2_p1">Test</p>
+                        <p id="doc1_div2_p2">Test</p>
+                    </div>
+                </body>
+            </html>
+        </x:expect>
+    </x:scenario>
+    
+</x:description>

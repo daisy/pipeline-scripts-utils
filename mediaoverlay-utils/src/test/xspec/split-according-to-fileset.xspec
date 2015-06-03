@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<x:description xmlns:x="http://www.jenitennison.com/xslt/xspec"
+    xmlns:d="http://www.daisy.org/ns/pipeline/data" xmlns:smil="http://www.w3.org/ns/SMIL"
+    stylesheet="../../../src/main/resources/xml/split-according-to-fileset.xsl">
+
+    <x:param name="fileset">
+        <d:fileset xml:base="file:/tmp/">
+            <d:file href="dir/fileA.xhtml" media-type="application/xhtml+xml"/>
+            <d:file href="dir/fileX.html" media-type="text/html"/>
+            <d:file href="dir/fileB.xhtml" media-type="application/xhtml+xml"/>
+            <d:file href="fileY.xhtml" media-type="application/xhtml+xml"/>
+            <d:file href="dir/fileC.xhtml" media-type="application/xhtml+xml"/>
+            <d:file href="dir/fileD.xhtml" media-type="application/xhtml+xml"/>
+        </d:fileset>
+    </x:param>
+
+    <x:scenario label="A SMIL file and a fileset">
+        <x:context>
+            <smil xmlns="http://www.w3.org/ns/SMIL" xmlns:epub="http://www.idpf.org/2007/ops"
+                version="3.0" xml:base="file:/tmp/dir/one-big-smil.smil">
+                <body>
+                    <seq>
+                        <par id="id1" epub:type="fulltitle">
+                            <text src="fileA.xhtml#id1"/>
+                        </par>
+                        <par id="id2">
+                            <text src="fileA.xhtml#id2"/>
+                        </par>
+                        <par id="id3">
+                            <text src="fileB.xhtml#id3"/>
+                        </par>
+                        <par id="id4">
+                            <text src="fileB.xhtml#id4"/>
+                        </par>
+                        <par id="id5">
+                            <text src="fileC.xhtml#id5"/>
+                        </par>
+                        <par id="id6">
+                            <text src="fileC.xhtml#id6"/>
+                        </par>
+                        <par id="id7">
+                            <text src="fileD.xhtml#id7"/>
+                        </par>
+                        <par id="id8">
+                            <text src="fileB.xhtml#id8"/>
+                        </par>
+                        <par id="id9">
+                            <text src="fileD.xhtml#id9"/>
+                        </par>
+                        <par id="id10">
+                            <text src="fileB.xhtml#id10"/>
+                        </par>
+                    </seq>
+                </body>
+            </smil>
+        </x:context>
+        <x:expect label="the SMIL should be split appropriately">
+            <smil xmlns="http://www.w3.org/ns/SMIL">
+                <smil xmlns="http://www.w3.org/ns/SMIL" xmlns:epub="http://www.idpf.org/2007/ops"
+                    version="3.0" xml:base="file:/tmp/dir/fileA.smil">
+                    <d:fileset xml:base="file:/tmp/">
+                        <d:file href="dir/fileA.xhtml" media-type="application/xhtml+xml"/>
+                    </d:fileset>
+                    <body>
+                        <seq>
+                            <par id="id1" epub:type="fulltitle">
+                                <text src="fileA.xhtml#id1"/>
+                            </par>
+                            <par id="id2">
+                                <text src="fileA.xhtml#id2"/>
+                            </par>
+                        </seq>
+                    </body>
+                </smil>
+                <smil xmlns="http://www.w3.org/ns/SMIL" version="3.0"
+                    xml:base="file:/tmp/dir/fileX.smil">
+                    <d:fileset xml:base="file:/tmp/">
+                        <d:file href="dir/fileX.html" media-type="text/html"/>
+                    </d:fileset>
+                    <body>
+                        <seq/>
+                    </body>
+                </smil>
+                <smil xmlns="http://www.w3.org/ns/SMIL" version="3.0"
+                    xml:base="file:/tmp/fileY.smil">
+                    <d:fileset xml:base="file:/tmp/">
+                        <d:file href="fileY.xhtml" media-type="application/xhtml+xml"/>
+                    </d:fileset>
+                    <body>
+                        <seq/>
+                    </body>
+                </smil>
+                <smil xmlns="http://www.w3.org/ns/SMIL" version="3.0"
+                    xml:base="file:/tmp/dir/fileC.smil">
+                    <d:fileset xml:base="file:/tmp/">
+                        <d:file href="dir/fileC.xhtml" media-type="application/xhtml+xml"/>
+                    </d:fileset>
+                    <body>
+                        <seq>
+                            <par id="id5">
+                                <text src="fileC.xhtml#id5"/>
+                            </par>
+                            <par id="id6">
+                                <text src="fileC.xhtml#id6"/>
+                            </par>
+                        </seq>
+                    </body>
+                </smil>
+                <smil xmlns="http://www.w3.org/ns/SMIL" version="3.0"
+                    xml:base="file:/tmp/common.smil">
+                    <d:fileset xml:base="file:/tmp/">
+                        <d:file href="dir/fileB.xhtml" media-type="application/xhtml+xml"/>
+                        <d:file href="dir/fileD.xhtml" media-type="application/xhtml+xml"/>
+                    </d:fileset>
+                    <body>
+                        <seq>
+                            <par id="id3">
+                                <text src="dir/fileB.xhtml#id3"/>
+                            </par>
+                            <par id="id4">
+                                <text src="dir/fileB.xhtml#id4"/>
+                            </par>
+                            <par id="id7">
+                                <text src="dir/fileD.xhtml#id7"/>
+                            </par>
+                            <par id="id8">
+                                <text src="dir/fileB.xhtml#id8"/>
+                            </par>
+                            <par id="id9">
+                                <text src="dir/fileD.xhtml#id9"/>
+                            </par>
+                            <par id="id10">
+                                <text src="dir/fileB.xhtml#id10"/>
+                            </par>
+                        </seq>
+                    </body>
+                </smil>
+            </smil>
+        </x:expect>
+    </x:scenario>
+
+</x:description>
