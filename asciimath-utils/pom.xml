@@ -16,11 +16,20 @@
     <asciimathml.js.url>http://mathcs.chapman.edu/~jipsen/mathml/ASCIIMathML.js</asciimathml.js.url>
     <asciimathml.js.sha1>3c31edd313d5f312a5aed3719b7dd6c022111b09</asciimathml.js.sha1>
     <expose-services>
+      org.daisy.pipeline.modules.impl.Module_asciimath_utils,
       org.daisy.pipeline.asciimathml.calabash.ASCIIMathMLProvider
     </expose-services>
   </properties>
 
   <dependencies>
+    <dependency>
+      <groupId>org.daisy.pipeline</groupId>
+      <artifactId>modules-registry</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.daisy.pipeline</groupId>
+      <artifactId>xmlcatalog</artifactId>
+    </dependency>
     <dependency>
       <groupId>org.daisy.pipeline</groupId>
       <artifactId>calabash-adapter</artifactId>
@@ -96,7 +105,8 @@
         <configuration>
           <instructions>
             <Private-Package>
-              org.daisy.pipeline.asciimathml.calabash
+              org.daisy.pipeline.asciimathml.calabash,
+              org.daisy.pipeline.modules.impl;-split-package:=first
             </Private-Package>
           </instructions>
         </configuration>

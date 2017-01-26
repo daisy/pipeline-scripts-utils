@@ -6,7 +6,7 @@
   <parent>
     <groupId>org.daisy.pipeline.modules</groupId>
     <artifactId>modules-parent</artifactId>
-    <version>1.6</version>
+    <version>1.7-SNAPSHOT</version>
     <relativePath/>
   </parent>
 
@@ -35,7 +35,7 @@
       <dependency>
         <groupId>org.daisy.pipeline</groupId>
         <artifactId>framework-bom</artifactId>
-        <version>1.11.0</version>
+        <version>1.11.1-SNAPSHOT</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -45,7 +45,7 @@
       <dependency>
         <groupId>org.daisy.pipeline.modules</groupId>
         <artifactId>common-utils-bom</artifactId>
-        <version>1.11.0</version>
+        <version>1.11.1-SNAPSHOT</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>

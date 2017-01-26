@@ -20,6 +20,14 @@
     <!-- Framework bundles -->
     <dependency>
       <groupId>org.daisy.pipeline</groupId>
+      <artifactId>modules-registry</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.daisy.pipeline</groupId>
+      <artifactId>xmlcatalog</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.daisy.pipeline</groupId>
       <artifactId>calabash-adapter</artifactId>
     </dependency>
     <!-- EpubCheck -->
@@ -36,6 +44,7 @@
   
   <properties>
     <expose-services>
+      org.daisy.pipeline.modules.impl.Module_epubcheck_adapter,
       org.daisy.pipeline.epub.EpubCheckProvider,
       org.idpf.epubcheck.util.saxon95.ColumnNumberFunction,
       org.idpf.epubcheck.util.saxon95.LineNumberFunction,
@@ -52,7 +61,8 @@
           <instructions>
             <Private-Package>
               org.daisy.pipeline.epub,
-              org.idpf.epubcheck.util.saxon95
+              org.idpf.epubcheck.util.saxon95,
+              org.daisy.pipeline.modules.impl;-split-package:=first
             </Private-Package>
           </instructions>
         </configuration>
