@@ -27,18 +27,33 @@
       <groupId>org.idpf</groupId>
       <artifactId>epubcheck</artifactId>
     </dependency>
+    <dependency>
+      <groupId>org.osgi</groupId>
+      <artifactId>org.osgi.compendium</artifactId>
+      <scope>provided</scope>
+    </dependency>
   </dependencies>
+  
+  <properties>
+    <expose-services>
+      org.daisy.pipeline.epub.EpubCheckProvider,
+      org.idpf.epubcheck.util.saxon95.ColumnNumberFunction,
+      org.idpf.epubcheck.util.saxon95.LineNumberFunction,
+      org.idpf.epubcheck.util.saxon95.SystemIdFunction
+    </expose-services>
+  </properties>
 
   <build>
     <plugins>
       <plugin>
         <groupId>org.apache.felix</groupId>
         <artifactId>maven-bundle-plugin</artifactId>
-        <extensions>true</extensions>
         <configuration>
           <instructions>
-            <Import-Package>org.daisy.pipeline.script,*</Import-Package>
-            <Service-Component>OSGI-INF/epubcheck.xml,OSGI-INF/column-number.xml,OSGI-INF/line-number.xml,OSGI-INF/system-id.xml</Service-Component>
+            <Private-Package>
+              org.daisy.pipeline.epub,
+              org.idpf.epubcheck.util.saxon95
+            </Private-Package>
           </instructions>
         </configuration>
       </plugin>
