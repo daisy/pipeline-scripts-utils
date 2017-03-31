@@ -98,6 +98,21 @@
         <artifactId>epubcheck</artifactId>
         <version>4.0.2-a11y-2-SNAPSHOT</version>
       </dependency>
+      <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-compress</artifactId>
+        <version>1.5</version>
+      </dependency>
+      <dependency>
+        <groupId>org.codehaus.jackson</groupId>
+        <artifactId>jackson-core-asl</artifactId>
+        <version>1.9.12</version>
+      </dependency>
+      <dependency>
+        <groupId>org.codehaus.jackson</groupId>
+        <artifactId>jackson-mapper-asl</artifactId>
+        <version>1.9.12</version>
+      </dependency>
     </dependencies>
   </dependencyManagement>
 </project>
