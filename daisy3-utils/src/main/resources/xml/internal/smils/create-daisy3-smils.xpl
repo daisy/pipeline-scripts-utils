@@ -92,6 +92,8 @@
 
     <p:delete match="@smilref"/>
 
+    <p:delete match="@smilref"/>
+
     <p:xslt name="add-ids">
       <p:input port="stylesheet">
 	<p:document href="add-ids.xsl"/>
