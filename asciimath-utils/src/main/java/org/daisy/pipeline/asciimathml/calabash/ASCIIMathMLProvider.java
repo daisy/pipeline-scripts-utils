@@ -51,6 +51,9 @@ public class ASCIIMathMLProvider implements XProcStepProvider {
 			
 			try {
 				ScriptEngine javascriptEngine = new ScriptEngineManager().getEngineByName("javascript");
+				
+				logger.debug("Using javascript engine: " + javascriptEngine);
+				
 				javascriptEngine.put("document",
 				                     DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument());
 				javascriptEngine.eval(new InputStreamReader(
