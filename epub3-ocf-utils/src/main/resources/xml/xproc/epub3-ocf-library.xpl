@@ -5,5 +5,6 @@
     <p:import href="ocf-finalize.xpl"/>
     <p:import href="ocf-zip.xpl"/>
     <p:import href="store.xpl"/>
+    <p:import href="opf-manifest-to-fileset.xpl"/>
     
 </p:library>
