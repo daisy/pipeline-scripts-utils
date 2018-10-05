@@ -30,29 +30,14 @@
     </p:output>
 
     <p:import href="http://www.daisy.org/pipeline/modules/common-utils/library.xpl"/>
+    <p:import href="http://www.daisy.org/pipeline/modules/file-utils/library.xpl"/>
     <p:import href="http://www.daisy.org/pipeline/modules/html-utils/library.xpl"/>
     <p:import href="http://www.daisy.org/pipeline/modules/fileset-utils/library.xpl"/>
     <p:import href="http://www.daisy.org/pipeline/modules/mediatype-utils/library.xpl"/>
 
-    <p:xslt>
-        <p:with-param name="href" select="$ncc"/>
-        <p:input port="source">
-            <p:inline>
-                <doc/>
-            </p:inline>
-        </p:input>
-        <p:input port="stylesheet">
-            <p:inline>
-                <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:pf="http://www.daisy.org/ns/pipeline/functions" version="2.0" exclude-result-prefixes="#all">
-                    <xsl:import href="http://www.daisy.org/pipeline/modules/file-utils/uri-functions.xsl"/>
-                    <xsl:param name="href" required="yes"/>
-                    <xsl:template match="/*">
-                        <d:file href="{pf:normalize-uri($href)}"/>
-                    </xsl:template>
-                </xsl:stylesheet>
-            </p:inline>
-        </p:input>
-    </p:xslt>
+    <px:normalize-uri name="ncc">
+        <p:with-option name="href" select="$ncc"/>
+    </px:normalize-uri>
 
     <p:group name="wrapper">
         <p:output port="fileset.out" primary="true">
@@ -61,10 +46,13 @@
         <p:output port="in-memory.out" sequence="true">
             <p:pipe port="result" step="in-memory"/>
         </p:output>
-        <p:variable name="href" select="/*/@href"/>
+        <p:variable name="href" select="/c:result/string()">
+            <p:pipe step="ncc" port="normalized"/>
+        </p:variable>
         <px:message severity="DEBUG">
             <p:with-option name="message" select="concat('loading NCC: ',$href)"/>
         </px:message>
+        <p:sink/>
 
         <px:html-load name="in-memory.ncc">
             <p:with-option name="href" select="$href"/>
