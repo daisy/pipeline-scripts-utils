@@ -139,6 +139,8 @@
         <px:message severity="DEBUG" message="Listing all resources referenced from the HTML files"/>
         <p:for-each name="fileset.html-resources.for-each">
             <px:html-to-fileset/>
+            <!-- not using fileset-filter because we don't want to delete files references from iframes -->
+            <p:delete match="d:file[@media-type='application/xhtml+xml' and not(@kind='content')]"/>
             <px:message severity="DEBUG">
                 <p:with-option name="message"
                     select="concat('extracted list of resources from ',replace(base-uri(/*),'^.*/',''))">
