@@ -37,4 +37,19 @@
     </dependency>
   </dependencies>
   
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.daisy.maven</groupId>
+        <artifactId>xspec-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>xspecTest</id>
+            <phase>none</phase>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
 </project>
