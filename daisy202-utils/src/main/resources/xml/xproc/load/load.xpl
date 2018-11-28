@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<p:declare-step xmlns:p="http://www.w3.org/ns/xproc"
-    xmlns:px="http://www.daisy.org/ns/pipeline/xproc"
-    xmlns:d="http://www.daisy.org/ns/pipeline/data" type="px:daisy202-load" version="1.0">
+<p:declare-step xmlns:p="http://www.w3.org/ns/xproc" version="1.0"
+                xmlns:px="http://www.daisy.org/ns/pipeline/xproc"
+                xmlns:d="http://www.daisy.org/ns/pipeline/data"
+                xmlns:c="http://www.w3.org/ns/xproc-step"
+                type="px:daisy202-load">
 
     <p:documentation>
         <p px:role="desc">Load a DAISY 2.02 fileset based on its NCC.</p>
