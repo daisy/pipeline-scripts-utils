@@ -67,27 +67,26 @@
                 <p:empty/>
             </p:input>
             <p:input port="stylesheet">
-                <p:document href="ncc-to-flow-fileset.xsl"/>
+                <p:document href="ncc-to-smil-fileset.xsl"/>
             </p:input>
         </p:xslt>
 
         <px:message severity="DEBUG" message="Loading all SMIL files"/>
-        <p:for-each>
-            <p:iteration-source select="//d:file"/>
-            <px:message severity="DEBUG">
-                <p:with-option name="message" select="concat('loading ',/*/@href,'...')"/>
-            </px:message>
-            <p:load>
-                <p:with-option name="href" select="p:resolve-uri(/*/@href,base-uri(/*))"/>
-            </p:load>
-        </p:for-each>
+        <px:fileset-load>
+            <p:input port="in-memory">
+                <p:empty/>
+            </p:input>
+        </px:fileset-load>
         <p:identity name="in-memory.smil"/>
 
         <px:message severity="DEBUG" message="Listing all resources referenced from the SMIL files"/>
         <p:for-each>
-            <p:identity name="fileset.html-and-resources.in-memory.smil"/>
-
-            <p:xslt name="fileset.html-and-resources.audio">
+            <p:output port="result" sequence="true">
+                <p:pipe port="result" step="fileset.html-and-audio.audio"/>
+                <p:pipe port="result" step="fileset.html-and-audio.text"/>
+            </p:output>
+            <p:identity name="smil"/>
+            <p:xslt name="fileset.html-and-audio.audio">
                 <p:input port="parameters">
                     <p:empty/>
                 </p:input>
@@ -97,10 +96,10 @@
                     />
                 </p:input>
             </p:xslt>
-
-            <p:xslt name="fileset.html-and-resources.text">
+            <p:sink/>
+            <p:xslt name="fileset.html-and-audio.text">
                 <p:input port="source">
-                    <p:pipe port="result" step="fileset.html-and-resources.in-memory.smil"/>
+                    <p:pipe step="smil" port="result"/>
                 </p:input>
                 <p:input port="parameters">
                     <p:empty/>
@@ -111,13 +110,7 @@
                     />
                 </p:input>
             </p:xslt>
-
-            <px:fileset-join>
-                <p:input port="source">
-                    <p:pipe port="result" step="fileset.html-and-resources.audio"/>
-                    <p:pipe port="result" step="fileset.html-and-resources.text"/>
-                </p:input>
-            </px:fileset-join>
+            <p:sink/>
         </p:for-each>
         <px:fileset-join name="fileset.html-and-audio"/>
 
