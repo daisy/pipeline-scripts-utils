@@ -12,6 +12,11 @@
         <!-- The EPUB version to validate against. Default is "3". Values allowed are: "2" and "3". -->
         <p:option name="version" required="false"/>
 
+        <!-- In "expanded" mode, this directory will be used to store the zipped EPUB. The directory
+             must not exist yet. If this option is not provided, a default temporary directory will
+             be used. -->
+        <p:option name="temp-dir" required="false"/>
+
         <!-- The epubcheck XML report. See Java implementation for more details about the grammar: https://github.com/IDPF/epubcheck/blob/master/src/main/java/com/adobe/epubcheck/util/XmlReportImpl.java#L176 -->
         <p:output port="result" sequence="true"/>
 
